@@ -1,0 +1,1164 @@
+<Window x:Class="PersonalLauncher.App.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:PersonalLauncher.App.Controls"
+        Title="PersonalLauncher"
+        Width="1280"
+        Height="720"
+        MinWidth="1280"
+        MaxWidth="1280"
+        MinHeight="720"
+        MaxHeight="720"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        ResizeMode="CanMinimize"
+        Background="#12151C"
+        Icon="pack://application:,,,/PersonalLauncher;component/Assets/logo.ico">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="0"
+                      ResizeBorderThickness="0"
+                      CornerRadius="0"
+                      GlassFrameThickness="0"
+                      UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Grid x:Name="RootGrid" ClipToBounds="True" controls:ClipHelper.CornerRadius="10">
+        <!-- ================================================================ -->
+        <!-- LAYER 0: FULL-BLEED WALLPAPER (IMAGE + OPTIONAL LIVE VIDEO)      -->
+        <!-- ================================================================ -->
+        <Image x:Name="WallpaperBack"
+               Stretch="UniformToFill"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               RenderOptions.BitmapScalingMode="HighQuality" />
+        <Image x:Name="WallpaperFront"
+               Stretch="UniformToFill"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Opacity="1"
+               RenderOptions.BitmapScalingMode="HighQuality" />
+        <controls:LiveVideoSurface x:Name="WallpaperVideo"
+                                   MaxDecodeWidth="1280"
+                                   MaxDecodeHeight="720"
+                                   Opacity="0"
+                                   Visibility="Collapsed" />
+
+        <!-- Atmospheric edge scrims for crisp contrast on both bright & dark wallpapers -->
+        <Grid IsHitTestVisible="False">
+            <Border>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                        <GradientStop Color="#70090C14" Offset="0" />
+                        <GradientStop Color="#14090C14" Offset="0.24" />
+                        <GradientStop Color="#18090C14" Offset="0.62" />
+                        <GradientStop Color="#CC090C14" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <Border>
+                <Border.Background>
+                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                        <GradientStop Color="#55090C14" Offset="0" />
+                        <GradientStop Color="#00090C14" Offset="0.35" />
+                        <GradientStop Color="#00090C14" Offset="0.80" />
+                        <GradientStop Color="#38090C14" Offset="1" />
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+        </Grid>
+
+        <!-- ================================================================ -->
+        <!-- LAYER 1: MAIN SHELL (LEFT TRANSLUCENT SIDEBAR + CONTENT AREA)    -->
+        <!-- ================================================================ -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="74" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT SIDEBAR: Translucent dark background only (icons stay 100% opaque!) -->
+            <Border Grid.Column="0"
+                    Background="{StaticResource SidebarGlassBrush}"
+                    BorderBrush="#24FFFFFF"
+                    BorderThickness="0,0,1,0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Top: Personal Logo (assets/logo/logo.png or user custom) -->
+                    <Button Grid.Row="0"
+                            Command="{Binding GoToMainGamePageCommand}"
+                            ToolTip="{DynamicResource Tooltip_PersonalLogo}"
+                            AutomationProperties.Name="{DynamicResource Tooltip_PersonalLogo}"
+                            Margin="0,14,0,12"
+                            Width="48"
+                            Height="48"
+                            Cursor="Hand"
+                            Background="Transparent"
+                            BorderThickness="0">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Grid>
+                                    <Border x:Name="LogoRing"
+                                            Width="48" Height="48"
+                                            CornerRadius="24"
+                                            BorderBrush="#55FFFFFF"
+                                            BorderThickness="1.5"
+                                            Background="#22000000"
+                                            ClipToBounds="True">
+                                        <Image Source="{Binding PersonalLogoImage}"
+                                               Stretch="UniformToFill"
+                                               controls:ClipHelper.IsCircular="True"
+                                               RenderOptions.BitmapScalingMode="HighQuality" />
+                                    </Border>
+                                </Grid>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="LogoRing" Property="BorderBrush" Value="{StaticResource AccentGoldBrush}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+
+                    <!-- Middle: Scrollable Public Game Icons -->
+                    <ScrollViewer Grid.Row="1"
+                                  VerticalScrollBarVisibility="Hidden"
+                                  HorizontalScrollBarVisibility="Disabled"
+                                  Margin="0,2,0,6">
+                        <ItemsControl ItemsSource="{Binding SidebarGames}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Command="{Binding DataContext.SelectSidebarGameCommand, RelativeSource={RelativeSource AncestorType=Window}}"
+                                            CommandParameter="{Binding}"
+                                            ToolTip="{Binding DisplayName}"
+                                            AutomationProperties.Name="{Binding DisplayName}"
+                                            Margin="0,5"
+                                            Cursor="Hand"
+                                            Background="Transparent"
+                                            BorderThickness="0"
+                                            HorizontalAlignment="Stretch">
+                                        <Button.Template>
+                                            <ControlTemplate TargetType="Button">
+                                                <Grid Height="50">
+                                                    <!-- Left gold accent indicator when selected -->
+                                                    <Border x:Name="ActiveBar"
+                                                            Width="3.5"
+                                                            Height="26"
+                                                            CornerRadius="2"
+                                                            HorizontalAlignment="Left"
+                                                            Background="{StaticResource AccentGoldBrush}"
+                                                            Visibility="{Binding IsSelected, Converter={StaticResource BoolToVis}}" />
+                                                    <Border x:Name="IconFrame"
+                                                            Width="48"
+                                                            Height="48"
+                                                            CornerRadius="12"
+                                                            HorizontalAlignment="Center"
+                                                            Background="#4410131C"
+                                                            BorderBrush="#40FFFFFF"
+                                                            BorderThickness="1.8"
+                                                            ClipToBounds="True">
+                                                        <Image Source="{Binding IconImage}"
+                                                               Stretch="UniformToFill"
+                                                               controls:ClipHelper.CornerRadius="10"
+                                                               RenderOptions.BitmapScalingMode="HighQuality" />
+                                                    </Border>
+                                                </Grid>
+                                                <ControlTemplate.Triggers>
+                                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                        <Setter TargetName="IconFrame" Property="BorderBrush" Value="{StaticResource AccentGoldBrush}" />
+                                                        <Setter TargetName="IconFrame" Property="BorderThickness" Value="2.2" />
+                                                    </DataTrigger>
+                                                    <Trigger Property="IsMouseOver" Value="True">
+                                                        <Setter TargetName="IconFrame" Property="BorderBrush" Value="#E6FFFFFF" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </Button.Template>
+                                    </Button>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+
+                    <!-- Bottom (fixed): All Games button using assets/buttons/buttons_menu.png -->
+                    <Border Grid.Row="2"
+                            BorderBrush="#24FFFFFF"
+                            BorderThickness="0,1,0,0"
+                            Padding="0,12,0,16">
+                        <Button Command="{Binding GoToAllGamesCommand}"
+                                ToolTip="{DynamicResource Tooltip_AllGames}"
+                                AutomationProperties.Name="{DynamicResource Tooltip_AllGames}"
+                                Width="48"
+                                Height="48"
+                                Cursor="Hand"
+                                Background="Transparent"
+                                BorderThickness="0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid>
+                                        <Border x:Name="MenuBg"
+                                                Width="48" Height="48"
+                                                CornerRadius="12"
+                                                BorderThickness="2"
+                                                BorderBrush="Transparent"
+                                                Padding="2">
+                                            <Image Source="{DynamicResource ButtonMenuSource}"
+                                                   Stretch="Uniform"
+                                                   controls:ClipHelper.CornerRadius="9"
+                                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                                        </Border>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <DataTrigger Binding="{Binding IsAllGamesPageActive}" Value="True">
+                                            <Setter TargetName="MenuBg" Property="BorderBrush" Value="{StaticResource AccentGoldBrush}" />
+                                        </DataTrigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="MenuBg" Property="Background" Value="#33FFFFFF" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <!-- RIGHT CONTENT AREA (Full width — ZERO social column!) -->
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="58" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!-- TOP TITLE BAR: Draggable background + right-aligned Settings/Minimize/Close -->
+                <Grid Grid.Row="0" Background="Transparent" MouseLeftButtonDown="TitleBar_MouseLeftButtonDown">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Top-Right Window Controls (Settings button uses assets/buttons/buttons_setting.png!) -->
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Margin="12,0,16,0">
+                        <Button Command="{Binding OpenSettingsCommand}"
+                                ToolTip="{DynamicResource Tooltip_Settings}"
+                                AutomationProperties.Name="{DynamicResource Tooltip_Settings}"
+                                Width="34"
+                                Height="34"
+                                Margin="0,0,8,0"
+                                Cursor="Hand"
+                                Background="Transparent"
+                                BorderThickness="0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Border x:Name="Ring"
+                                            Width="34" Height="34"
+                                            CornerRadius="17"
+                                            Background="#660B0E17"
+                                            BorderThickness="1.5"
+                                            BorderBrush="#33FFFFFF"
+                                            Padding="2">
+                                        <Image Source="{DynamicResource ButtonSettingSource}"
+                                               Stretch="Uniform"
+                                               RenderOptions.BitmapScalingMode="HighQuality" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="Ring" Property="BorderBrush" Value="{StaticResource AccentGoldBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Opacity" Value="0.8" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <Button Style="{StaticResource TitleBarButtonStyle}"
+                                Click="MinimizeButton_Click"
+                                ToolTip="{DynamicResource Tooltip_Minimize}"
+                                AutomationProperties.Name="{DynamicResource Tooltip_Minimize}"
+                                Margin="0,0,4,0">
+                            <Path Data="M 0,0 L 13,0" Stroke="#F5F7FA" StrokeThickness="1.8" />
+                        </Button>
+
+                        <Button Style="{StaticResource TitleBarButtonStyle}"
+                                Click="CloseButton_Click"
+                                ToolTip="{DynamicResource Tooltip_Close}"
+                                AutomationProperties.Name="{DynamicResource Tooltip_Close}">
+                            <Path Data="M 0,0 L 11,11 M 11,0 L 0,11" Stroke="#F5F7FA" StrokeThickness="1.8" />
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <!-- ======================================================== -->
+                <!-- PAGE A: MAIN GAME PAGE (Reference Screenshot 1, cleaned) -->
+                <!-- ======================================================== -->
+                <Grid Grid.Row="1"
+                      Visibility="{Binding IsGamePageActive, Converter={StaticResource BoolToVis}}">
+                    <!-- Top-Left: Game Title Logo OR clean drop-shadowed text title -->
+                    <StackPanel VerticalAlignment="Top"
+                                HorizontalAlignment="Left"
+                                Margin="36,10,36,0"
+                                MaxWidth="560"
+                                Visibility="{Binding HasActiveGame, Converter={StaticResource BoolToVis}}">
+                        <Image Source="{Binding ActiveTitleLogo}"
+                               MaxHeight="110"
+                               MaxWidth="420"
+                               Stretch="Uniform"
+                               HorizontalAlignment="Left"
+                               RenderOptions.BitmapScalingMode="HighQuality"
+                               Visibility="{Binding ActiveTitleLogo, Converter={StaticResource NotNullToVis}}">
+                            <Image.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="16" ShadowDepth="2" Opacity="0.7" />
+                            </Image.Effect>
+                        </Image>
+
+                        <TextBlock Text="{Binding ActiveTitleText}"
+                                   FontSize="38"
+                                   FontWeight="Bold"
+                                   Foreground="#FFFFFF"
+                                   TextWrapping="Wrap"
+                                   Visibility="{Binding ShowActiveTextTitle, Converter={StaticResource BoolToVis}}">
+                            <TextBlock.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="18" ShadowDepth="2" Opacity="0.85" />
+                            </TextBlock.Effect>
+                        </TextBlock>
+
+                        <!-- Secret badge + quick Lock button when viewing a Secret game -->
+                        <StackPanel Orientation="Horizontal"
+                                    Margin="0,10,0,0"
+                                    Visibility="{Binding ViewingSecretGamePage, Converter={StaticResource BoolToVis}}">
+                            <Border Background="#CC1A1E28"
+                                    BorderBrush="{StaticResource AccentGoldBrush}"
+                                    BorderThickness="1"
+                                    CornerRadius="12"
+                                    Padding="10,4"
+                                    Margin="0,0,8,0">
+                                <TextBlock Text="🔒 Secret" FontSize="12" FontWeight="SemiBold" Foreground="{StaticResource AccentGoldBrush}" />
+                            </Border>
+                            <Button Content="{DynamicResource AllGames_LockSecret}"
+                                    Command="{Binding LockSecretCommand}"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Padding="10,4"
+                                    FontSize="12" />
+                        </StackPanel>
+
+                        <!-- Missing EXE alert banner -->
+                        <Border Background="#E02A1B1D"
+                                BorderBrush="#D9534F"
+                                BorderThickness="1"
+                                CornerRadius="10"
+                                Padding="14,10"
+                                Margin="0,14,0,0"
+                                Visibility="{Binding IsActiveGameMissing, Converter={StaticResource BoolToVis}}">
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBlock Text="{DynamicResource Game_MissingBanner}"
+                                           Foreground="#FFDAD6"
+                                           FontSize="12.5"
+                                           TextWrapping="Wrap"
+                                           MaxWidth="360"
+                                           VerticalAlignment="Center"
+                                           Margin="0,0,12,0" />
+                                <Button Content="{DynamicResource Game_Relocate}"
+                                        Command="{Binding EditLocationCommand}"
+                                        Style="{StaticResource PrimaryButtonStyle}"
+                                        Padding="12,6"
+                                        FontSize="12" />
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+
+                    <!-- Empty State (no games in public library) -->
+                    <Border VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Background="{StaticResource GlassCardBrush}"
+                            BorderBrush="#36FFFFFF"
+                            BorderThickness="1"
+                            CornerRadius="18"
+                            Padding="36,30"
+                            MaxWidth="460"
+                            Visibility="{Binding ShowEmptyGameState, Converter={StaticResource BoolToVis}}">
+                        <StackPanel HorizontalAlignment="Center">
+                            <TextBlock Text="{DynamicResource Game_EmptyTitle}"
+                                       FontSize="22"
+                                       FontWeight="SemiBold"
+                                       Foreground="#FFFFFF"
+                                       TextAlignment="Center"
+                                       TextWrapping="Wrap" />
+                            <TextBlock Text="{DynamicResource Game_EmptyDesc}"
+                                       FontSize="13.5"
+                                       Foreground="#C4CCDC"
+                                       TextAlignment="Center"
+                                       TextWrapping="Wrap"
+                                       Margin="0,10,0,22" />
+                            <Button Content="{DynamicResource Game_AddFirst}"
+                                    Command="{Binding OpenAddGameCommand}"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    HorizontalAlignment="Center"
+                                    Padding="24,11"
+                                    FontSize="14" />
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Bottom-Right Action Bar: Play Button + Edit Controls (Folder / Logo / Wallpaper / More) -->
+                    <StackPanel VerticalAlignment="Bottom"
+                                HorizontalAlignment="Right"
+                                Orientation="Horizontal"
+                                Margin="24,0,34,30">
+
+                        <!-- Main START GAME button using assets/buttons/buttons_play.png (and textless variant for localization/states) -->
+                        <Button Command="{Binding PlayActiveGameCommand}"
+                                IsEnabled="{Binding CanPlayActiveGame}"
+                                Width="222"
+                                Height="74"
+                                Cursor="Hand"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Margin="0,0,12,0">
+                            <Button.Template>
+                                <ControlTemplate TargetType="Button">
+                                    <Grid x:Name="PlayRoot" RenderTransformOrigin="0.5,0.5">
+                                        <Grid.RenderTransform>
+                                            <ScaleTransform x:Name="PlayScale" ScaleX="1" ScaleY="1" />
+                                        </Grid.RenderTransform>
+
+                                        <!-- Original Vietnamese Play Button asset -->
+                                        <Image Source="{DynamicResource ButtonPlaySource}"
+                                               Stretch="Uniform"
+                                               RenderOptions.BitmapScalingMode="HighQuality"
+                                               Visibility="{Binding UseOriginalVietnamesePlayAsset, Converter={StaticResource BoolToVis}}" />
+
+                                        <!-- Textless exact-match Play Button asset + localized / status label -->
+                                        <Grid Visibility="{Binding ShowDynamicPlayOverlayText, Converter={StaticResource BoolToVis}}">
+                                            <Image Source="{DynamicResource ButtonPlayBlankSource}"
+                                                   Stretch="Uniform"
+                                                   RenderOptions.BitmapScalingMode="HighQuality" />
+                                            <TextBlock Text="{Binding PlayButtonOverlayText}"
+                                                       Foreground="#101216"
+                                                       FontSize="16"
+                                                       FontWeight="ExtraBold"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Margin="68,0,16,3" />
+                                        </Grid>
+                                    </Grid>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="PlayRoot" Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="1.03" ScaleY="1.03" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="PlayRoot" Property="RenderTransform">
+                                                <Setter.Value>
+                                                    <ScaleTransform ScaleX="0.97" ScaleY="0.97" />
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter TargetName="PlayRoot" Property="Opacity" Value="0.42" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Button.Template>
+                        </Button>
+
+                        <!-- Wide Layout: 3 dedicated circular buttons (Folder, Logo, Wallpaper) + More menu -->
+                        <StackPanel Orientation="Horizontal"
+                                    VerticalAlignment="Center"
+                                    Visibility="{Binding HasActiveGame, Converter={StaticResource BoolToVis}}">
+                            <StackPanel Orientation="Horizontal"
+                                        Visibility="{Binding IsNarrowLayout, Converter={StaticResource InvBoolToVis}}">
+                                <!-- Folder Button -->
+                                <Button Style="{StaticResource CircularAssetActionButtonStyle}"
+                                        Command="{Binding EditLocationCommand}"
+                                        ToolTip="{DynamicResource Action_Folder}"
+                                        AutomationProperties.Name="{DynamicResource Action_Folder}"
+                                        Margin="0,0,10,0">
+                                    <Path Data="M3,6 C3,4.9 3.9,4 5,4 L9.5,4 L11.5,6 L19,6 C20.1,6 21,6.9 21,8 L21,18 C21,19.1 20.1,20 19,20 L5,20 C3.9,20 3,19.1 3,18 Z"
+                                          Fill="Transparent" Stroke="#F5F7FA" StrokeThickness="1.8"
+                                          Width="22" Height="22" Stretch="Uniform" />
+                                </Button>
+
+                                <!-- Logo Button -->
+                                <Button Style="{StaticResource CircularAssetActionButtonStyle}"
+                                        Command="{Binding EditLogoCommand}"
+                                        ToolTip="{DynamicResource Action_Logo}"
+                                        AutomationProperties.Name="{DynamicResource Action_Logo}"
+                                        Margin="0,0,10,0">
+                                    <Path Data="M12,3 L14.8,8.7 L21,9.6 L16.5,14 L17.6,20.2 L12,17.2 L6.4,20.2 L7.5,14 L3,9.6 L9.2,8.7 Z"
+                                          Fill="Transparent" Stroke="#F5F7FA" StrokeThickness="1.8"
+                                          Width="21" Height="21" Stretch="Uniform" />
+                                </Button>
+
+                                <!-- Wallpaper Button -->
+                                <Button Style="{StaticResource CircularAssetActionButtonStyle}"
+                                        Command="{Binding EditWallpaperCommand}"
+                                        ToolTip="{DynamicResource Action_Wallpaper}"
+                                        AutomationProperties.Name="{DynamicResource Action_Wallpaper}"
+                                        Margin="0,0,10,0">
+                                    <Grid Width="22" Height="22">
+                                        <Rectangle Stroke="#F5F7FA" StrokeThickness="1.8" RadiusX="3" RadiusY="3" />
+                                        <Path Data="M4,17 L9,11.5 L13,15.5 L16,12.5 L20,17"
+                                              Stroke="#F5F7FA" StrokeThickness="1.7" Fill="Transparent" />
+                                        <Ellipse Width="4" Height="4" Fill="#F5F7FA" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,4,4,0" />
+                                    </Grid>
+                                </Button>
+                            </StackPanel>
+
+                            <!-- Overflow / Edit Game Circular Menu Button (styled like Reference Screenshot 1 & 2!) -->
+                            <Grid>
+                                <Button x:Name="GameMoreMenuButton"
+                                        Style="{StaticResource CircularAssetActionButtonStyle}"
+                                        Click="GameMoreMenuButton_Click"
+                                        ToolTip="{DynamicResource Action_EditGame}"
+                                        AutomationProperties.Name="{DynamicResource Action_EditGame}">
+                                    <Path Data="M3,6 L19,6 M3,11.5 L19,11.5 M3,17 L19,17"
+                                          Stroke="#F5F7FA" StrokeThickness="2.2" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+                                          Width="20" Height="18" Stretch="Uniform" />
+                                </Button>
+
+                                <Popup x:Name="GameMorePopup"
+                                       PlacementTarget="{Binding ElementName=GameMoreMenuButton}"
+                                       Placement="Top"
+                                       HorizontalOffset="-160"
+                                       VerticalOffset="-10"
+                                       StaysOpen="False"
+                                       AllowsTransparency="True"
+                                       PopupAnimation="Fade">
+                                    <Border Background="{StaticResource PopupDarkBrush}"
+                                            BorderBrush="#3C4352"
+                                            BorderThickness="1"
+                                            CornerRadius="12"
+                                            Padding="6"
+                                            MinWidth="215">
+                                        <Border.Effect>
+                                            <DropShadowEffect Color="Black" BlurRadius="22" ShadowDepth="4" Opacity="0.65" />
+                                        </Border.Effect>
+                                        <StackPanel>
+                                            <!-- Included in menu when narrow (or always accessible!) -->
+                                            <Button Content="{DynamicResource Action_Folder}"
+                                                    Style="{StaticResource PopupMenuItemButtonStyle}"
+                                                    Click="PopupAction_Click"
+                                                    Command="{Binding EditLocationCommand}" />
+                                            <Button Content="{DynamicResource Action_Logo}"
+                                                    Style="{StaticResource PopupMenuItemButtonStyle}"
+                                                    Click="PopupAction_Click"
+                                                    Command="{Binding EditLogoCommand}" />
+                                            <Button Content="{DynamicResource Action_Wallpaper}"
+                                                    Style="{StaticResource PopupMenuItemButtonStyle}"
+                                                    Click="PopupAction_Click"
+                                                    Command="{Binding EditWallpaperCommand}" />
+                                            <Separator Background="#363C4A" Margin="8,4" />
+                                            <Button Content="{DynamicResource Action_ManageSecret}"
+                                                    Style="{StaticResource PopupMenuItemButtonStyle}"
+                                                    Visibility="{Binding ViewingSecretGamePage, Converter={StaticResource BoolToVis}}"
+                                                    Click="PopupAction_Click"
+                                                    Command="{Binding OpenSettingsSecretCommand}" />
+                                            <Button Content="{DynamicResource Action_RemoveFromLibrary}"
+                                                    Style="{StaticResource PopupMenuItemButtonStyle}"
+                                                    Foreground="#FF8A80"
+                                                    Click="PopupAction_Click"
+                                                    Command="{Binding DeleteActiveGameCommand}" />
+                                        </StackPanel>
+                                    </Border>
+                                </Popup>
+                            </Grid>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+
+                <!-- ======================================================== -->
+                <!-- PAGE B: ALL GAMES & SECRET PAGE (Reference Screenshot 4) -->
+                <!-- ======================================================== -->
+                <Grid Grid.Row="1"
+                      Visibility="{Binding IsAllGamesPageActive, Converter={StaticResource BoolToVis}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Top Bar: [Toàn bộ game] [Secret 🔒] | [Search…] [+ Thêm game] -->
+                    <Grid Grid.Row="0" Margin="32,2,28,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Segmented Tab Pill Switcher -->
+                        <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Background="#AA151922"
+                                    BorderBrush="#36FFFFFF"
+                                    BorderThickness="1"
+                                    CornerRadius="10"
+                                    Padding="4">
+                                <StackPanel Orientation="Horizontal">
+                                    <RadioButton Content="{DynamicResource Tab_AllGames}"
+                                                 GroupName="LibraryScopeTabs"
+                                                 IsChecked="{Binding IsPublicTabActive, Mode=OneWay}"
+                                                 Command="{Binding SelectPublicTabCommand}"
+                                                 Cursor="Hand">
+                                        <RadioButton.Template>
+                                            <ControlTemplate TargetType="RadioButton">
+                                                <Border x:Name="TabBd" CornerRadius="7" Padding="14,7" Background="Transparent">
+                                                    <TextBlock x:Name="TabTxt" Text="{TemplateBinding Content}" FontSize="13.5" FontWeight="SemiBold" Foreground="#C8D0E0" />
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="TabBd" Property="Background" Value="{StaticResource AccentGoldBrush}" />
+                                                        <Setter TargetName="TabTxt" Property="Foreground" Value="#14171F" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </RadioButton.Template>
+                                    </RadioButton>
+
+                                    <RadioButton GroupName="LibraryScopeTabs"
+                                                 IsChecked="{Binding IsSecretTabActive, Mode=OneWay}"
+                                                 Command="{Binding SelectSecretTabCommand}"
+                                                 Cursor="Hand"
+                                                 Margin="4,0,0,0">
+                                        <RadioButton.Template>
+                                            <ControlTemplate TargetType="RadioButton">
+                                                <Border x:Name="TabBd" CornerRadius="7" Padding="14,7" Background="Transparent">
+                                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                                        <Path x:Name="LockIcon"
+                                                              Data="M5,11 L5,7 C5,4.2 7.2,2 10,2 C12.8,2 15,4.2 15,7 L15,11 M4,11 L16,11 C17.1,11 18,11.9 18,13 L18,20 C18,21.1 17.1,22 16,22 L4,22 C2.9,22 2,21.1 2,20 L2,13 C2,11.9 2.9,11 4,11 Z"
+                                                              Stroke="#D4DCEB" StrokeThickness="1.8" Fill="Transparent"
+                                                              Width="13" Height="14" Stretch="Uniform"
+                                                              VerticalAlignment="Center" Margin="0,0,7,0" />
+                                                        <TextBlock x:Name="TabTxt" Text="{DynamicResource Tab_Secret}" FontSize="13.5" FontWeight="SemiBold" Foreground="#D4DCEB" VerticalAlignment="Center" />
+                                                    </StackPanel>
+                                                </Border>
+                                                <ControlTemplate.Triggers>
+                                                    <Trigger Property="IsChecked" Value="True">
+                                                        <Setter TargetName="TabBd" Property="Background" Value="{StaticResource AccentGoldBrush}" />
+                                                        <Setter TargetName="TabTxt" Property="Foreground" Value="#14171F" />
+                                                        <Setter TargetName="LockIcon" Property="Stroke" Value="#14171F" />
+                                                    </Trigger>
+                                                </ControlTemplate.Triggers>
+                                            </ControlTemplate>
+                                        </RadioButton.Template>
+                                    </RadioButton>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Lock Secret button when unlocked -->
+                            <Button Content="{DynamicResource AllGames_LockSecret}"
+                                    Command="{Binding LockSecretCommand}"
+                                    Style="{StaticResource SecondaryButtonStyle}"
+                                    Margin="10,0,0,0"
+                                    Padding="12,7"
+                                    Visibility="{Binding ShowSecretLibraryContent, Converter={StaticResource BoolToVis}}" />
+                        </StackPanel>
+
+                        <!-- Right: Search Input (Public or Secret) + Add Game button -->
+                        <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <!-- Public Search Box -->
+                            <Grid Width="230" Margin="0,0,10,0"
+                                  Visibility="{Binding IsPublicTabActive, Converter={StaticResource BoolToVis}}">
+                                <TextBox x:Name="PublicSearchBox"
+                                         Style="{StaticResource DarkTextBoxStyle}"
+                                         Background="#CC161A24"
+                                         Padding="12,7,30,7"
+                                         Text="{Binding PublicSearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="{DynamicResource Search_Placeholder}"
+                                           Foreground="#8B94A8"
+                                           FontSize="12.5"
+                                           Margin="13,0,0,0"
+                                           VerticalAlignment="Center"
+                                           IsHitTestVisible="False"
+                                           Visibility="{Binding HasPublicSearchQuery, Converter={StaticResource InvBoolToVis}}" />
+                                <Button Content="×"
+                                        Command="{Binding ClearPublicSearchCommand}"
+                                        Visibility="{Binding HasPublicSearchQuery, Converter={StaticResource BoolToVis}}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Width="26" Height="26"
+                                        Margin="0,0,4,0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Foreground="#C0C8D8"
+                                        FontSize="15"
+                                        Cursor="Hand" />
+                            </Grid>
+
+                            <!-- Secret Search Box (visible ONLY when Secret is unlocked!) -->
+                            <Grid Width="230" Margin="0,0,10,0"
+                                  Visibility="{Binding ShowSecretLibraryContent, Converter={StaticResource BoolToVis}}">
+                                <TextBox x:Name="SecretSearchBox"
+                                         Style="{StaticResource DarkTextBoxStyle}"
+                                         Background="#CC161A24"
+                                         Padding="12,7,30,7"
+                                         Text="{Binding SecretSearchQuery, UpdateSourceTrigger=PropertyChanged}" />
+                                <TextBlock Text="{DynamicResource Search_Placeholder}"
+                                           Foreground="#8B94A8"
+                                           FontSize="12.5"
+                                           Margin="13,0,0,0"
+                                           VerticalAlignment="Center"
+                                           IsHitTestVisible="False"
+                                           Visibility="{Binding HasSecretSearchQuery, Converter={StaticResource InvBoolToVis}}" />
+                                <Button Content="×"
+                                        Command="{Binding ClearSecretSearchCommand}"
+                                        Visibility="{Binding HasSecretSearchQuery, Converter={StaticResource BoolToVis}}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"
+                                        Width="26" Height="26"
+                                        Margin="0,0,4,0"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Foreground="#C0C8D8"
+                                        FontSize="15"
+                                        Cursor="Hand" />
+                            </Grid>
+
+                            <Button Content="{DynamicResource AllGames_AddGame}"
+                                    Command="{Binding OpenAddGameCommand}"
+                                    Style="{StaticResource PrimaryButtonStyle}"
+                                    Visibility="{Binding IsPublicTabActive, Converter={StaticResource BoolToVis}}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <!-- MIDDLE AREA: Selected Game Logo / Name OR Secret PIN Gate -->
+                    <Grid Grid.Row="1" Margin="36,0,36,0">
+                        <!-- Selected Game Title Logo / Name overlay over wallpaper (Public or Unlocked Secret) -->
+                        <StackPanel VerticalAlignment="Top"
+                                    HorizontalAlignment="Left"
+                                    Margin="0,12,0,0"
+                                    MaxWidth="560"
+                                    Visibility="{Binding ShowSecretPinGate, Converter={StaticResource InvBoolToVis}}">
+                            <StackPanel Visibility="{Binding HasActiveGame, Converter={StaticResource BoolToVis}}">
+                                <Image Source="{Binding ActiveTitleLogo}"
+                                       MaxHeight="104"
+                                       MaxWidth="380"
+                                       Stretch="Uniform"
+                                       HorizontalAlignment="Left"
+                                       RenderOptions.BitmapScalingMode="HighQuality"
+                                       Visibility="{Binding ActiveTitleLogo, Converter={StaticResource NotNullToVis}}">
+                                    <Image.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="16" ShadowDepth="2" Opacity="0.7" />
+                                    </Image.Effect>
+                                </Image>
+                                <TextBlock Text="{Binding ActiveTitleText}"
+                                           FontSize="36"
+                                           FontWeight="Bold"
+                                           Foreground="#FFFFFF"
+                                           TextWrapping="Wrap"
+                                           Visibility="{Binding ShowActiveTextTitle, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="16" ShadowDepth="2" Opacity="0.85" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                                <TextBlock Text="{DynamicResource AllGames_OpenHint}"
+                                           FontSize="12.5"
+                                           Foreground="#D8E0EE"
+                                           Margin="0,8,0,0">
+                                    <TextBlock.Effect>
+                                        <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="1" Opacity="0.9" />
+                                    </TextBlock.Effect>
+                                </TextBlock>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- SECRET PIN GATE (Shown when Secret tab is locked — zero secret game metadata leaked!) -->
+                        <Border VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Background="#E0191D27"
+                                BorderBrush="#44FFFFFF"
+                                BorderThickness="1"
+                                CornerRadius="18"
+                                Padding="36,30"
+                                Width="430"
+                                Visibility="{Binding ShowSecretPinGate, Converter={StaticResource BoolToVis}}">
+                            <Border.Effect>
+                                <DropShadowEffect Color="Black" BlurRadius="28" ShadowDepth="6" Opacity="0.7" />
+                            </Border.Effect>
+
+                            <StackPanel>
+                                <!-- First-time Setup Mode -->
+                                <StackPanel Visibility="{Binding IsPinSetupMode, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="🔒" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                                    <TextBlock Text="{DynamicResource Secret_SetupTitle}"
+                                               FontSize="20" FontWeight="SemiBold" Foreground="#FFFFFF"
+                                               HorizontalAlignment="Center" TextAlignment="Center" />
+                                    <TextBlock Text="{DynamicResource Secret_SetupDesc}"
+                                               FontSize="12.5" Foreground="#B4BDCE" TextWrapping="Wrap"
+                                               TextAlignment="Center" Margin="0,8,0,18" />
+
+                                    <TextBlock Text="{DynamicResource Secret_NewPin}" FontSize="12.5" Foreground="#D4DCEB" Margin="0,0,0,6" HorizontalAlignment="Center" />
+                                    <controls:PinInputControl AutoSubmit="False" PinValue="{Binding SetupPin, Mode=TwoWay}" Margin="0,0,0,14" />
+
+                                    <TextBlock Text="{DynamicResource Secret_ConfirmPin}" FontSize="12.5" Foreground="#D4DCEB" Margin="0,0,0,6" HorizontalAlignment="Center" />
+                                    <controls:PinInputControl AutoSubmit="False" PinValue="{Binding SetupConfirmPin, Mode=TwoWay}" Margin="0,0,0,16" />
+
+                                    <TextBlock Text="{Binding PinErrorMessage}"
+                                               Foreground="#FF8A80"
+                                               FontSize="12.5"
+                                               TextWrapping="Wrap"
+                                               TextAlignment="Center"
+                                               Margin="0,0,0,12"
+                                               Visibility="{Binding PinErrorMessage, Converter={StaticResource NotNullToVis}}" />
+
+                                    <Button Content="{DynamicResource Secret_CreatePinBtn}"
+                                            Command="{Binding CreateFirstPinCommand}"
+                                            Style="{StaticResource PrimaryButtonStyle}"
+                                            HorizontalAlignment="Center"
+                                            Padding="24,10" />
+                                </StackPanel>
+
+                                <!-- Unlock Mode (auto-verifies on 4th digit!) -->
+                                <StackPanel Visibility="{Binding IsPinUnlockMode, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="🔒" FontSize="32" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                                    <TextBlock Text="{DynamicResource Secret_UnlockTitle}"
+                                               FontSize="20" FontWeight="SemiBold" Foreground="#FFFFFF"
+                                               HorizontalAlignment="Center" />
+                                    <TextBlock Text="{DynamicResource Secret_UnlockBrowseDesc}"
+                                               FontSize="12.5" Foreground="#B4BDCE" TextWrapping="Wrap"
+                                               TextAlignment="Center" Margin="0,8,0,22" />
+
+                                    <controls:PinInputControl x:Name="SecretBrowsePinInput"
+                                                              AutoSubmit="True"
+                                                              IsEnabled="{Binding IsInPinCooldown, Converter={StaticResource InvBoolToVis}}"
+                                                              PinCompleted="SecretBrowsePinInput_PinCompleted"
+                                                              InvalidInputAttempted="SecretBrowsePinInput_InvalidInputAttempted" />
+
+                                    <TextBlock Text="{Binding PinErrorMessage}"
+                                               Foreground="#FF8A80"
+                                               FontSize="12.5"
+                                               TextWrapping="Wrap"
+                                               TextAlignment="Center"
+                                               Margin="0,16,0,0"
+                                               Visibility="{Binding PinErrorMessage, Converter={StaticResource NotNullToVis}}" />
+                                </StackPanel>
+
+                                <!-- Passcode Missing / Corrupted Mode -->
+                                <StackPanel Visibility="{Binding IsPasscodeCorrupted, Converter={StaticResource BoolToVis}}">
+                                    <TextBlock Text="⚠️" FontSize="34" HorizontalAlignment="Center" Margin="0,0,0,10" />
+                                    <TextBlock Text="{DynamicResource Secret_PasscodeCorrupted}"
+                                               FontSize="13.5" Foreground="#FF8A80" TextWrapping="Wrap"
+                                               TextAlignment="Center" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+
+                    <!-- BOTTOM HORIZONTAL CARD STRIP (Reference Screenshot 4!) -->
+                    <Grid Grid.Row="2" Margin="24,0,24,24">
+                        <!-- Public Games Strip -->
+                        <Grid Visibility="{Binding IsPublicTabActive, Converter={StaticResource BoolToVis}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Empty / Search No Results States -->
+                            <Border Grid.ColumnSpan="3"
+                                    Background="{StaticResource GlassCardBrush}"
+                                    CornerRadius="12"
+                                    Padding="24,18"
+                                    HorizontalAlignment="Center"
+                                    Visibility="{Binding ShowSearchEmptyPublic, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="{DynamicResource Search_NoResults}" Foreground="#D4DCEB" FontSize="14" />
+                            </Border>
+
+                            <Border Grid.ColumnSpan="3"
+                                    Background="{StaticResource GlassCardBrush}"
+                                    CornerRadius="12"
+                                    Padding="24,18"
+                                    HorizontalAlignment="Center"
+                                    Visibility="{Binding ShowPublicAllGamesEmpty, Converter={StaticResource BoolToVis}}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource Game_EmptyTitle}" Foreground="#D4DCEB" FontSize="14" VerticalAlignment="Center" Margin="0,0,14,0" />
+                                    <Button Content="{DynamicResource Game_AddFirst}" Command="{Binding OpenAddGameCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Button Grid.Column="0" Content="‹" FontSize="24" Width="34" Height="148" VerticalAlignment="Top"
+                                    Style="{StaticResource SecondaryButtonStyle}" Padding="0" Background="#88141822"
+                                    Click="ScrollPublicLeft_Click"
+                                    Visibility="{Binding HasFilteredPublicGames, Converter={StaticResource BoolToVis}}" />
+
+                            <ListBox x:Name="PublicCardsListBox"
+                                     Grid.Column="1"
+                                     ItemsSource="{Binding FilteredPublicGames}"
+                                     SelectedItem="{Binding SelectedPublicGame, Mode=TwoWay}"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Margin="8,0"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                     VirtualizingPanel.IsVirtualizing="True"
+                                     VirtualizingPanel.VirtualizationMode="Recycling"
+                                     MouseDoubleClick="CardsListBox_MouseDoubleClick"
+                                     KeyDown="CardsListBox_KeyDown">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Margin" Value="0,0,14,0" />
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Cursor" Value="Hand" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <ContentPresenter />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Width="148">
+                                            <Border x:Name="CardBorder"
+                                                    Width="148" Height="148"
+                                                    CornerRadius="12"
+                                                    Background="#262A34"
+                                                    BorderBrush="#40FFFFFF"
+                                                    BorderThickness="2"
+                                                    ClipToBounds="True">
+                                                <Grid controls:ClipHelper.CornerRadius="10">
+                                                    <Image Source="{Binding CardWallpaperImage}"
+                                                           Stretch="UniformToFill"
+                                                           RenderOptions.BitmapScalingMode="HighQuality" />
+                                                    <Border>
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                <GradientStop Color="#20000000" Offset="0" />
+                                                                <GradientStop Color="#78000000" Offset="1" />
+                                                            </LinearGradientBrush>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <!-- Title logo overlaid on card, or crisp text fallback -->
+                                                    <Image Source="{Binding TitleLogoImage}"
+                                                           MaxWidth="126" MaxHeight="76"
+                                                           Margin="10"
+                                                           Stretch="Uniform"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Visibility="{Binding TitleLogoImage, Converter={StaticResource NotNullToVis}}" />
+                                                    <TextBlock Text="{Binding DisplayName}"
+                                                               Foreground="#FFFFFF"
+                                                               FontSize="14.5"
+                                                               FontWeight="Bold"
+                                                               TextWrapping="Wrap"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               MaxHeight="68"
+                                                               TextAlignment="Center"
+                                                               Margin="10"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Visibility="{Binding ShowTextTitleFallback, Converter={StaticResource BoolToVis}}">
+                                                        <TextBlock.Effect>
+                                                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="1" Opacity="0.95" />
+                                                        </TextBlock.Effect>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Border>
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       Foreground="#EEF2FA"
+                                                       FontSize="12.5"
+                                                       FontWeight="Medium"
+                                                       TextAlignment="Center"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Margin="4,8,4,0">
+                                                <TextBlock.Effect>
+                                                    <DropShadowEffect Color="Black" BlurRadius="8" ShadowDepth="1" Opacity="0.9" />
+                                                </TextBlock.Effect>
+                                            </TextBlock>
+                                        </StackPanel>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter TargetName="CardBorder" Property="BorderBrush" Value="{StaticResource AccentGoldBrush}" />
+                                                <Setter TargetName="CardBorder" Property="BorderThickness" Value="2.8" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <Button Grid.Column="2" Content="›" FontSize="24" Width="34" Height="148" VerticalAlignment="Top"
+                                    Style="{StaticResource SecondaryButtonStyle}" Padding="0" Background="#88141822"
+                                    Click="ScrollPublicRight_Click"
+                                    Visibility="{Binding HasFilteredPublicGames, Converter={StaticResource BoolToVis}}" />
+                        </Grid>
+
+                        <!-- Secret Games Strip (VISIBLE ONLY WHEN UNLOCKED!) -->
+                        <Grid Visibility="{Binding ShowSecretLibraryContent, Converter={StaticResource BoolToVis}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.ColumnSpan="3"
+                                    Background="{StaticResource GlassCardBrush}"
+                                    CornerRadius="12"
+                                    Padding="24,18"
+                                    HorizontalAlignment="Center"
+                                    Visibility="{Binding ShowSearchEmptySecret, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="{DynamicResource Search_NoResults}" Foreground="#D4DCEB" FontSize="14" />
+                            </Border>
+
+                            <Border Grid.ColumnSpan="3"
+                                    Background="{StaticResource GlassCardBrush}"
+                                    CornerRadius="12"
+                                    Padding="24,18"
+                                    HorizontalAlignment="Center"
+                                    Visibility="{Binding ShowSecretAllGamesEmpty, Converter={StaticResource BoolToVis}}">
+                                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                    <TextBlock Text="{DynamicResource AllGames_SecretEmpty}" Foreground="#D4DCEB" FontSize="14" VerticalAlignment="Center" Margin="0,0,14,0" />
+                                    <Button Content="{DynamicResource Action_ManageSecret}" Command="{Binding OpenSettingsSecretCommand}" Style="{StaticResource PrimaryButtonStyle}" />
+                                </StackPanel>
+                            </Border>
+
+                            <Button Grid.Column="0" Content="‹" FontSize="24" Width="34" Height="148" VerticalAlignment="Top"
+                                    Style="{StaticResource SecondaryButtonStyle}" Padding="0" Background="#88141822"
+                                    Click="ScrollSecretLeft_Click"
+                                    Visibility="{Binding HasFilteredSecretGames, Converter={StaticResource BoolToVis}}" />
+
+                            <ListBox x:Name="SecretCardsListBox"
+                                     Grid.Column="1"
+                                     ItemsSource="{Binding FilteredSecretGames}"
+                                     SelectedItem="{Binding SelectedSecretGame, Mode=TwoWay}"
+                                     Background="Transparent"
+                                     BorderThickness="0"
+                                     Margin="8,0"
+                                     ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                                     ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                                     VirtualizingPanel.IsVirtualizing="True"
+                                     VirtualizingPanel.VirtualizationMode="Recycling"
+                                     MouseDoubleClick="CardsListBox_MouseDoubleClick"
+                                     KeyDown="CardsListBox_KeyDown">
+                                <ListBox.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel Orientation="Horizontal" />
+                                    </ItemsPanelTemplate>
+                                </ListBox.ItemsPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="0" />
+                                        <Setter Property="Margin" Value="0,0,14,0" />
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <Setter Property="BorderThickness" Value="0" />
+                                        <Setter Property="Cursor" Value="Hand" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="ListBoxItem">
+                                                    <ContentPresenter />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Width="148">
+                                            <Border x:Name="CardBorder"
+                                                    Width="148" Height="148"
+                                                    CornerRadius="12"
+                                                    Background="#262A34"
+                                                    BorderBrush="#40FFFFFF"
+                                                    BorderThickness="2"
+                                                    ClipToBounds="True">
+                                                <Grid controls:ClipHelper.CornerRadius="10">
+                                                    <Image Source="{Binding CardWallpaperImage}"
+                                                           Stretch="UniformToFill"
+                                                           RenderOptions.BitmapScalingMode="HighQuality" />
+                                                    <Border>
+                                                        <Border.Background>
+                                                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                                <GradientStop Color="#20000000" Offset="0" />
+                                                                <GradientStop Color="#78000000" Offset="1" />
+                                                            </LinearGradientBrush>
+                                                        </Border.Background>
+                                                    </Border>
+                                                    <Image Source="{Binding TitleLogoImage}"
+                                                           MaxWidth="126" MaxHeight="76"
+                                                           Margin="10"
+                                                           Stretch="Uniform"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           Visibility="{Binding TitleLogoImage, Converter={StaticResource NotNullToVis}}" />
+                                                    <TextBlock Text="{Binding DisplayName}"
+                                                               Foreground="#FFFFFF"
+                                                               FontSize="14.5"
+                                                               FontWeight="Bold"
+                                                               TextWrapping="Wrap"
+                                                               TextTrimming="CharacterEllipsis"
+                                                               MaxHeight="68"
+                                                               TextAlignment="Center"
+                                                               Margin="10"
+                                                               HorizontalAlignment="Center"
+                                                               VerticalAlignment="Center"
+                                                               Visibility="{Binding ShowTextTitleFallback, Converter={StaticResource BoolToVis}}">
+                                                        <TextBlock.Effect>
+                                                            <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="1" Opacity="0.95" />
+                                                        </TextBlock.Effect>
+                                                    </TextBlock>
+                                                </Grid>
+                                            </Border>
+                                            <TextBlock Text="{Binding DisplayName}"
+                                                       Foreground="#EEF2FA"
+                                                       FontSize="12.5"
+                                                       FontWeight="Medium"
+                                                       TextAlignment="Center"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Margin="4,8,4,0" />
+                                        </StackPanel>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter TargetName="CardBorder" Property="BorderBrush" Value="{StaticResource AccentGoldBrush}" />
+                                                <Setter TargetName="CardBorder" Property="BorderThickness" Value="2.8" />
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+
+                            <Button Grid.Column="2" Content="›" FontSize="24" Width="34" Height="148" VerticalAlignment="Top"
+                                    Style="{StaticResource SecondaryButtonStyle}" Padding="0" Background="#88141822"
+                                    Click="ScrollSecretRight_Click"
+                                    Visibility="{Binding HasFilteredSecretGames, Converter={StaticResource BoolToVis}}" />
+                        </Grid>
+                    </Grid>
+                </Grid>
+
+                <!-- Floating Toast Notification -->
+                <Border Grid.Row="1"
+                        VerticalAlignment="Bottom"
+                        HorizontalAlignment="Left"
+                        Margin="32,0,0,34"
+                        Background="#EB1B1F2A"
+                        BorderBrush="{StaticResource AccentGoldBrush}"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="16,10"
+                        MaxWidth="460"
+                        IsHitTestVisible="False"
+                        Visibility="{Binding StatusToast, Converter={StaticResource NotNullToVis}}">
+                    <TextBlock Text="{Binding StatusToast}" Foreground="#F5F7FA" FontSize="13" TextWrapping="Wrap" />
+                </Border>
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>

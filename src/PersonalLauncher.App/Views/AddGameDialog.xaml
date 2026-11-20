@@ -1,0 +1,322 @@
+<Window x:Class="PersonalLauncher.App.Views.AddGameDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:PersonalLauncher.App.Controls"
+        Title="{Binding DialogTitle}"
+        Width="860"
+        Height="640"
+        MinWidth="740"
+        MinHeight="560"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="CanResize"
+        Background="#1E222B"
+        Icon="pack://application:,,,/PersonalLauncher;component/Assets/logo.ico">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="48" ResizeBorderThickness="5" GlassFrameThickness="0" UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Border BorderBrush="#3B4252" BorderThickness="1" Background="#1E222B">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="52" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <!-- Dialog Header -->
+            <Border Grid.Row="0" Background="#171A21" BorderBrush="#2E3440" BorderThickness="0,0,0,1" Padding="20,0,12,0">
+                <Grid>
+                    <TextBlock Text="{Binding DialogTitle}" FontSize="16" FontWeight="SemiBold" Foreground="#F5F7FA" VerticalAlignment="Center" />
+                    <Button Content="×" FontSize="20" Width="34" Height="34" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            WindowChrome.IsHitTestVisibleInChrome="True"
+                            Style="{StaticResource TitleBarButtonStyle}" Click="Close_Click" />
+                </Grid>
+            </Border>
+
+            <!-- Two-Tab Content -->
+            <TabControl Grid.Row="1" Background="Transparent" BorderThickness="0" Padding="18,14">
+                <TabControl.Resources>
+                    <Style TargetType="TabItem">
+                        <Setter Property="Foreground" Value="#A7B0C0" />
+                        <Setter Property="FontSize" Value="13.5" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                        <Setter Property="Padding" Value="18,10" />
+                        <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="TabItem">
+                                    <Border x:Name="Bd" Background="Transparent" BorderBrush="Transparent" BorderThickness="0,0,0,2.5" Padding="{TemplateBinding Padding}" Margin="0,0,8,0">
+                                        <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource AccentGoldBrush}" />
+                                            <Setter Property="Foreground" Value="#FFFFFF" />
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Foreground" Value="#FFFFFF" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </TabControl.Resources>
+
+                <!-- TAB 1: MANUAL -->
+                <TabItem Header="{DynamicResource AddGame_TabManual}">
+                    <Grid Margin="0,12,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="260" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Left Form -->
+                            <ScrollViewer Grid.Column="0" VerticalScrollBarVisibility="Auto" Padding="0,0,16,0">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource AddGame_Name}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                    <TextBox Style="{StaticResource DarkTextBoxStyle}" Text="{Binding DisplayName, UpdateSourceTrigger=PropertyChanged}" MaxLength="120" />
+                                    <TextBlock Text="{DynamicResource AddGame_NameHint}" Foreground="#828B9E" FontSize="11.5" Margin="0,3,0,12" />
+
+                                    <TextBlock Text="{DynamicResource AddGame_Exe}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding ExePath, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0" />
+                                        <Button Grid.Column="1" Content="{DynamicResource Common_Browse}" Style="{StaticResource SecondaryButtonStyle}" Click="BrowseExe_Click" />
+                                    </Grid>
+
+                                    <TextBlock Text="{DynamicResource AddGame_InstallDir}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                    <Grid Margin="0,0,0,12">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding InstallDirectory, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0" />
+                                        <Button Grid.Column="1" Content="{DynamicResource Common_Browse}" Style="{StaticResource SecondaryButtonStyle}" Click="BrowseInstallDir_Click" />
+                                    </Grid>
+
+                                    <TextBlock Text="{DynamicResource AddGame_Icon}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                    <Grid Margin="0,0,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding IconSourcePath, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0" />
+                                        <Button Grid.Column="1" Content="{DynamicResource Common_Browse}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,6,0" Click="BrowseIcon_Click" />
+                                        <Button Grid.Column="2" Content="{DynamicResource Common_Clear}" Style="{StaticResource SecondaryButtonStyle}" Click="ClearIcon_Click" />
+                                    </Grid>
+                                    <TextBlock Text="{DynamicResource AddGame_DefaultHint}" Foreground="#828B9E" FontSize="11.5" Margin="0,0,0,12" />
+
+                                    <TextBlock Text="{DynamicResource AddGame_Wallpaper}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                    <Grid Margin="0,0,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding WallpaperSourcePath, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0" />
+                                        <Button Grid.Column="1" Content="{DynamicResource Common_Browse}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,6,0" Click="BrowseWallpaper_Click" />
+                                        <Button Grid.Column="2" Content="{DynamicResource Common_Clear}" Style="{StaticResource SecondaryButtonStyle}" Click="ClearWallpaper_Click" />
+                                    </Grid>
+                                    <TextBlock Text="{DynamicResource AddGame_DefaultHint}" Foreground="#828B9E" FontSize="11.5" Margin="0,0,0,12" />
+
+                                    <TextBlock Text="{DynamicResource AddGame_CardCover}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                    <Grid Margin="0,0,0,4">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBox Grid.Column="0" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding CardCoverSourcePath, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0" />
+                                        <Button Grid.Column="1" Content="{DynamicResource Common_Browse}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,6,0" Click="BrowseCardCover_Click" />
+                                        <Button Grid.Column="2" Content="{DynamicResource Common_Clear}" Style="{StaticResource SecondaryButtonStyle}" Click="ClearCardCover_Click" />
+                                    </Grid>
+                                    <TextBlock Text="{DynamicResource AddGame_CardCoverHint}" Foreground="#828B9E" FontSize="11.5" TextWrapping="Wrap" Margin="0,0,0,14" />
+
+                                    <!-- Advanced Options -->
+                                    <Expander Header="{DynamicResource AddGame_Advanced}" Foreground="#E2E7F2" FontSize="13" IsExpanded="False" Margin="0,4,0,8">
+                                        <StackPanel Margin="0,10,0,0">
+                                            <TextBlock Text="{DynamicResource AddGame_TitleLogo}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                            <Grid Margin="0,0,0,12">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding TitleLogoSourcePath, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0" />
+                                                <Button Grid.Column="1" Content="{DynamicResource Common_Browse}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,6,0" Click="BrowseTitleLogo_Click" />
+                                                <Button Grid.Column="2" Content="{DynamicResource Common_Clear}" Style="{StaticResource SecondaryButtonStyle}" Click="ClearTitleLogo_Click" />
+                                            </Grid>
+
+                                            <TextBlock Text="{DynamicResource AddGame_WorkingDir}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                            <Grid Margin="0,0,0,12">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*" />
+                                                    <ColumnDefinition Width="Auto" />
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding WorkingDirectory, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0" />
+                                                <Button Grid.Column="1" Content="{DynamicResource Common_Browse}" Style="{StaticResource SecondaryButtonStyle}" Click="BrowseWorkingDir_Click" />
+                                            </Grid>
+
+                                            <TextBlock Text="{DynamicResource AddGame_Arguments}" Foreground="#D4DCEB" FontSize="12.5" Margin="0,0,0,5" />
+                                            <TextBox Style="{StaticResource DarkTextBoxStyle}" Text="{Binding ArgumentsMultiline, UpdateSourceTrigger=PropertyChanged}"
+                                                     AcceptsReturn="True" Height="64" VerticalContentAlignment="Top" TextWrapping="Wrap" />
+                                        </StackPanel>
+                                    </Expander>
+                                </StackPanel>
+                            </ScrollViewer>
+
+                            <!-- Right Live Preview -->
+                            <Border Grid.Column="1" Background="#171A22" BorderBrush="#2E3440" BorderThickness="1" CornerRadius="12" Padding="14" VerticalAlignment="Top">
+                                <StackPanel>
+                                    <TextBlock Text="{DynamicResource AddGame_Preview}" Foreground="#C4CCDC" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,10" />
+                                    <Border Height="132" CornerRadius="10" ClipToBounds="True" Background="#252932" Margin="0,0,0,12">
+                                        <Grid controls:ClipHelper.CornerRadius="10">
+                                            <Image Source="{Binding WallpaperPreview}" Stretch="UniformToFill" />
+                                            <Border Background="#44000000" />
+                                            <Image Source="{Binding TitleLogoPreview}" MaxHeight="56" MaxWidth="180" Stretch="Uniform"
+                                                   Visibility="{Binding TitleLogoPreview, Converter={StaticResource NotNullToVis}}" />
+                                            <TextBlock Text="{Binding DisplayName}" Foreground="#FFFFFF" FontWeight="Bold" FontSize="15"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Margin="10"
+                                                       Visibility="{Binding TitleLogoPreview, Converter={StaticResource NullToVis}}" />
+                                        </Grid>
+                                    </Border>
+
+                                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                        <Border Width="54" Height="54" CornerRadius="12" ClipToBounds="True" BorderBrush="{StaticResource AccentGoldBrush}" BorderThickness="1.8" Margin="0,0,12,0">
+                                            <Image Source="{Binding IconPreview}" Stretch="UniformToFill" controls:ClipHelper.CornerRadius="10" />
+                                        </Border>
+                                        <TextBlock Text="{Binding DisplayName}" Foreground="#F5F7FA" FontWeight="SemiBold" FontSize="14"
+                                                   VerticalAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="155" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </Grid>
+
+                        <!-- Footer Actions -->
+                        <Grid Grid.Row="1" Margin="0,14,0,0">
+                            <TextBlock Text="{Binding ManualError}" Foreground="#FF8A80" FontSize="12.5" VerticalAlignment="Center" TextWrapping="Wrap" Margin="0,0,220,0" />
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="{DynamicResource Common_Cancel}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="Close_Click" />
+                                <Button Content="{DynamicResource Common_Save}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveManualCommand}" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+
+                <!-- TAB 2: AUTO FOLDER SCAN -->
+                <TabItem Header="{DynamicResource AddGame_TabAuto}">
+                    <Grid Margin="0,12,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Root Directory Selection -->
+                        <Grid Grid.Row="0" Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Column="0" Style="{StaticResource DarkTextBoxStyle}" Text="{Binding ScanRootDirectory, UpdateSourceTrigger=PropertyChanged}" Margin="0,0,8,0" />
+                            <Button Grid.Column="1" Content="{DynamicResource Common_Browse}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,8,0" Click="BrowseScanRoot_Click" />
+                            <Button Grid.Column="2" Content="{DynamicResource Scan_Start}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,8,0" Command="{Binding StartScanCommand}" />
+                            <Button Grid.Column="3" Content="{DynamicResource Scan_Cancel}" Style="{StaticResource DangerButtonStyle}" Command="{Binding CancelScanCommand}"
+                                    Visibility="{Binding IsScanning, Converter={StaticResource BoolToVis}}" />
+                        </Grid>
+
+                        <!-- Scan Options + Read-Only Note -->
+                        <StackPanel Grid.Row="1" Margin="0,0,0,8">
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <CheckBox Content="{DynamicResource Scan_IncludeSubdirs}" Style="{StaticResource DarkCheckBoxStyle}"
+                                          IsChecked="{Binding IncludeSubdirectories}" Margin="0,0,20,0" />
+                                <CheckBox Content="{DynamicResource Scan_ShowHelpers}" Style="{StaticResource DarkCheckBoxStyle}"
+                                          IsChecked="{Binding ShowHelperCandidates}" />
+                            </StackPanel>
+                            <TextBlock Text="{DynamicResource Scan_NoteReadOnly}" Foreground="#98A2B8" FontSize="12" TextWrapping="Wrap" />
+                        </StackPanel>
+
+                        <!-- Progress Bar -->
+                        <StackPanel Grid.Row="2" Margin="0,0,0,8" Visibility="{Binding IsScanning, Converter={StaticResource BoolToVis}}">
+                            <ProgressBar IsIndeterminate="True" Height="4" Foreground="{StaticResource AccentGoldBrush}" Background="#2A2F3A" BorderThickness="0" />
+                            <TextBlock Text="{Binding ScanProgressText}" Foreground="#E0E6F2" FontSize="12" Margin="0,4,0,0" />
+                            <TextBlock Text="{Binding ScanCurrentDir}" Foreground="#8B94A8" FontSize="11.5" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+
+                        <!-- Preview DataGrid -->
+                        <DataGrid Grid.Row="3"
+                                  ItemsSource="{Binding VisibleScanCandidates}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  Background="#171A22"
+                                  Foreground="#EEF2FA"
+                                  BorderBrush="#333946"
+                                  BorderThickness="1"
+                                  RowBackground="#1C2029"
+                                  AlternatingRowBackground="#212631"
+                                  GridLinesVisibility="Horizontal"
+                                  HorizontalGridLinesBrush="#2B313F"
+                                  HeadersVisibility="Column">
+                            <DataGrid.ColumnHeaderStyle>
+                                <Style TargetType="DataGridColumnHeader">
+                                    <Setter Property="Background" Value="#252A36" />
+                                    <Setter Property="Foreground" Value="#CFD7E6" />
+                                    <Setter Property="FontWeight" Value="SemiBold" />
+                                    <Setter Property="Padding" Value="10,8" />
+                                    <Setter Property="BorderBrush" Value="#343B4B" />
+                                    <Setter Property="BorderThickness" Value="0,0,1,1" />
+                                </Style>
+                            </DataGrid.ColumnHeaderStyle>
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="{DynamicResource Scan_ColSelect}" Width="58">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}"
+                                                      IsEnabled="{Binding CanSelect}"
+                                                      HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="{DynamicResource Scan_ColName}" Binding="{Binding SuggestedName, UpdateSourceTrigger=PropertyChanged}" Width="180" />
+                                <DataGridTextColumn Header="{DynamicResource Scan_ColExe}" Binding="{Binding ExeFileName}" IsReadOnly="True" Width="170" />
+                                <DataGridTextColumn Header="{DynamicResource Scan_ColFolder}" Binding="{Binding DirectParentDirectory}" IsReadOnly="True" Width="*" />
+                                <DataGridTextColumn Header="{DynamicResource Scan_ColStatus}" Binding="{Binding StatusLabel}" IsReadOnly="True" Width="155" />
+                            </DataGrid.Columns>
+                        </DataGrid>
+
+                        <!-- Footer Summary + Import Button -->
+                        <Grid Grid.Row="4" Margin="0,12,0,0">
+                            <StackPanel VerticalAlignment="Center" Margin="0,0,260,0">
+                                <TextBlock Text="{Binding ScanSkippedText}" Foreground="#FFB74D" FontSize="12" TextWrapping="Wrap"
+                                           Visibility="{Binding ScanSkippedText, Converter={StaticResource NotNullToVis}}" />
+                                <TextBlock Text="{Binding ScanSummaryText}" Foreground="#9EE0A1" FontSize="12.5" TextWrapping="Wrap"
+                                           Visibility="{Binding ScanSummaryText, Converter={StaticResource NotNullToVis}}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button Content="{DynamicResource Common_Cancel}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="Close_Click" />
+                                <Button Content="{DynamicResource Scan_ImportSelected}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding ImportSelectedCommand}" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </Border>
+</Window>

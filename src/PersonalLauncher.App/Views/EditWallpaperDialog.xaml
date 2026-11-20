@@ -1,0 +1,109 @@
+<Window x:Class="PersonalLauncher.App.Views.EditWallpaperDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:PersonalLauncher.App.Controls"
+        Title="{DynamicResource EditWp_Title}"
+        Width="780"
+        Height="560"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="#1E222B"
+        Icon="pack://application:,,,/PersonalLauncher;component/Assets/logo.ico">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="48" ResizeBorderThickness="0" GlassFrameThickness="0" UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Border BorderBrush="#3B4252" BorderThickness="1" Background="#1E222B">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="52" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" Background="#171A21" BorderBrush="#2E3440" BorderThickness="0,0,0,1" Padding="20,0,12,0">
+                <Grid>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="{DynamicResource EditWp_Title}" FontSize="15.5" FontWeight="SemiBold" Foreground="#F5F7FA" />
+                        <TextBlock Text=" — " Foreground="#7B859A" FontSize="15.5" />
+                        <TextBlock Text="{Binding GameName}" FontSize="15.5" Foreground="{StaticResource AccentGoldBrush}" TextTrimming="CharacterEllipsis" MaxWidth="360" />
+                    </StackPanel>
+                    <Button Content="×" FontSize="20" Width="34" Height="34" HorizontalAlignment="Right" VerticalAlignment="Center"
+                            WindowChrome.IsHitTestVisibleInChrome="True" Style="{StaticResource TitleBarButtonStyle}" Click="Cancel_Click" />
+                </Grid>
+            </Border>
+
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="24,16">
+                <StackPanel>
+                    <!-- Section 1: Main Wallpaper (Static Image OR Live Video) -->
+                    <Grid Margin="0,0,0,8">
+                        <TextBlock Text="{DynamicResource EditWp_Preview}" Foreground="#E2E7F2" FontWeight="SemiBold" FontSize="13" VerticalAlignment="Center" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="{DynamicResource EditWp_SelectImage}" Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" FontSize="12.5" Margin="0,0,8,0" Click="SelectImage_Click" />
+                            <Button Content="{DynamicResource Common_ResetDefault}" Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" FontSize="12.5" Command="{Binding ResetDefaultCommand}" />
+                        </StackPanel>
+                    </Grid>
+
+                    <Border Height="250" CornerRadius="10" ClipToBounds="True" BorderBrush="#3C4456" BorderThickness="1.5" Background="#12151D" Margin="0,0,0,18">
+                        <Grid controls:ClipHelper.CornerRadius="8.5">
+                            <Image Source="{Binding WallpaperPreview}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
+                            <controls:LiveVideoSurface x:Name="PreviewVideo"
+                                                       MaxDecodeWidth="640"
+                                                       MaxDecodeHeight="360"
+                                                       Visibility="{Binding IsLiveVideoPreview, Converter={StaticResource BoolToVis}}" />
+                            <!-- Translucent sidebar preview indicator -->
+                            <Border Width="42" HorizontalAlignment="Left" Background="{StaticResource SidebarGlassBrush}" />
+                            <!-- LIVE VIDEO badge -->
+                            <Border HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,12,0"
+                                    Background="#D9161A24" BorderBrush="{StaticResource AccentGoldBrush}" BorderThickness="1"
+                                    CornerRadius="6" Padding="8,3"
+                                    Visibility="{Binding IsLiveVideoPreview, Converter={StaticResource BoolToVis}}">
+                                <TextBlock Text="{DynamicResource EditWp_LiveBadge}" Foreground="{StaticResource AccentGoldBrush}" FontSize="11" FontWeight="Bold" />
+                            </Border>
+                        </Grid>
+                    </Border>
+
+                    <!-- Section 2: Static Library Cover Card Image -->
+                    <Border Background="#171A22" BorderBrush="#2E3440" BorderThickness="1" CornerRadius="10" Padding="14">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Exact square library card preview -->
+                            <Border Grid.Column="0" Width="116" Height="116" CornerRadius="12" ClipToBounds="True"
+                                    BorderBrush="{StaticResource AccentGoldBrush}" BorderThickness="1.8" Background="#252934" Margin="0,0,18,0">
+                                <Image Source="{Binding CardCoverPreview}"
+                                       Stretch="UniformToFill"
+                                       controls:ClipHelper.CornerRadius="10"
+                                       RenderOptions.BitmapScalingMode="HighQuality" />
+                            </Border>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{DynamicResource EditWp_CardCoverSection}" Foreground="#F5F7FA" FontWeight="SemiBold" FontSize="13.5" />
+                                <TextBlock Text="{DynamicResource EditWp_CardCoverHint}" Foreground="#A7B0C0" FontSize="12" TextWrapping="Wrap" Margin="0,4,0,12" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="{DynamicResource EditWp_SelectCover}" Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" FontSize="12.5" Margin="0,0,8,0" Click="SelectCover_Click" />
+                                    <Button Content="{DynamicResource EditWp_AutoCover}" Style="{StaticResource SecondaryButtonStyle}" Padding="12,6" FontSize="12.5" Command="{Binding ResetCardCoverToAutoCommand}" />
+                                </StackPanel>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <TextBlock Text="{Binding ErrorMessage}" Foreground="#FF8A80" FontSize="12.5" Margin="0,10,0,0" TextWrapping="Wrap"
+                               Visibility="{Binding ErrorMessage, Converter={StaticResource NotNullToVis}}" />
+                </StackPanel>
+            </ScrollViewer>
+
+            <Border Grid.Row="2" Background="#171A21" BorderBrush="#2E3440" BorderThickness="0,1,0,0" Padding="20,12">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="{DynamicResource Common_Cancel}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="Cancel_Click" />
+                    <Button Content="{DynamicResource Common_Save}" Style="{StaticResource PrimaryButtonStyle}" Command="{Binding SaveCommand}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

@@ -1,0 +1,207 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- App / General -->
+    <sys:String x:Key="App_Name">PersonalLauncher</sys:String>
+    <sys:String x:Key="Common_Save">Lưu</sys:String>
+    <sys:String x:Key="Common_Cancel">Hủy</sys:String>
+    <sys:String x:Key="Common_Close">Đóng</sys:String>
+    <sys:String x:Key="Common_Browse">Chọn...</sys:String>
+    <sys:String x:Key="Common_ResetDefault">Khôi phục mặc định</sys:String>
+    <sys:String x:Key="Common_Clear">Xóa</sys:String>
+    <sys:String x:Key="Common_Delete">Xóa</sys:String>
+    <sys:String x:Key="Common_Confirm">Xác nhận</sys:String>
+    <sys:String x:Key="Common_OK">Đồng ý</sys:String>
+    <sys:String x:Key="Common_OpenFolder">Mở thư mục</sys:String>
+
+    <!-- Titlebar & Sidebar -->
+    <sys:String x:Key="Tooltip_PersonalLogo">Trang game chính</sys:String>
+    <sys:String x:Key="Tooltip_AllGames">Toàn bộ game</sys:String>
+    <sys:String x:Key="Tooltip_Settings">Cài đặt</sys:String>
+    <sys:String x:Key="Tooltip_Minimize">Thu nhỏ</sys:String>
+    <sys:String x:Key="Tooltip_Close">Đóng</sys:String>
+
+    <!-- Main Game Page -->
+    <sys:String x:Key="Play_StartGame">Bắt đầu game</sys:String>
+    <sys:String x:Key="Play_Launching">Đang mở...</sys:String>
+    <sys:String x:Key="Play_Running">Đang chạy</sys:String>
+    <sys:String x:Key="Play_Missing">Không tìm thấy game</sys:String>
+    <sys:String x:Key="Play_Error">Lỗi khởi chạy</sys:String>
+    <sys:String x:Key="Game_MissingBanner">Không tìm thấy tệp EXE hoặc ổ đĩa rời đã ngắt kết nối. Bạn có thể chọn lại vị trí game.</sys:String>
+    <sys:String x:Key="Game_Relocate">Chọn lại vị trí</sys:String>
+    <sys:String x:Key="Game_EmptyTitle">Chưa có game nào trong thư viện</sys:String>
+    <sys:String x:Key="Game_EmptyDesc">Thêm game đã cài trên máy của bạn để bắt đầu quản lý wallpaper và khởi chạy nhanh.</sys:String>
+    <sys:String x:Key="Game_AddFirst">+ Thêm game</sys:String>
+
+    <!-- Game Action Controls -->
+    <sys:String x:Key="Action_Folder">Thư mục</sys:String>
+    <sys:String x:Key="Action_Logo">Logo</sys:String>
+    <sys:String x:Key="Action_Wallpaper">Wallpaper</sys:String>
+    <sys:String x:Key="Action_EditGame">Chỉnh sửa game</sys:String>
+    <sys:String x:Key="Action_RemoveFromLibrary">Xóa khỏi thư viện</sys:String>
+    <sys:String x:Key="Action_ManageSecret">Quản lý Secret</sys:String>
+
+    <!-- All Games & Search -->
+    <sys:String x:Key="Tab_AllGames">Toàn bộ game</sys:String>
+    <sys:String x:Key="Tab_Secret">Secret</sys:String>
+    <sys:String x:Key="Search_Placeholder">Tìm tên game... (Ctrl+F)</sys:String>
+    <sys:String x:Key="Search_NoResults">Không tìm thấy game phù hợp.</sys:String>
+    <sys:String x:Key="AllGames_AddGame">+ Thêm game</sys:String>
+    <sys:String x:Key="AllGames_SecretEmpty">Chưa có game nào trong danh mục Secret.</sys:String>
+    <sys:String x:Key="AllGames_LockSecret">Khóa Secret</sys:String>
+    <sys:String x:Key="AllGames_OpenHint">Nhấp đúp hoặc nhấn Enter để mở trang game</sys:String>
+
+    <!-- Add Game Dialog -->
+    <sys:String x:Key="AddGame_Title">Thêm game</sys:String>
+    <sys:String x:Key="AddGame_TitleSecret">Thêm game trực tiếp vào Secret</sys:String>
+    <sys:String x:Key="AddGame_TabManual">Thủ công</sys:String>
+    <sys:String x:Key="AddGame_TabAuto">Tự động theo thư mục</sys:String>
+    <sys:String x:Key="AddGame_Name">Tên game *</sys:String>
+    <sys:String x:Key="AddGame_NameHint">Tối đa 120 ký tự, hỗ trợ tiếng Việt / Nhật / Trung</sys:String>
+    <sys:String x:Key="AddGame_Exe">Tệp EXE khởi chạy *</sys:String>
+    <sys:String x:Key="AddGame_InstallDir">Thư mục game</sys:String>
+    <sys:String x:Key="AddGame_Icon">Icon sidebar (PNG/JPG/ICO)</sys:String>
+    <sys:String x:Key="AddGame_Wallpaper">Wallpaper nền (Ảnh PNG/JPG hoặc Video MP4/WEBM/MOV)</sys:String>
+    <sys:String x:Key="AddGame_CardCover">Ảnh bìa thư viện tĩnh (PNG/JPG, tùy chọn)</sys:String>
+    <sys:String x:Key="AddGame_CardCoverHint">Khi dùng Live Wallpaper, thẻ trong thư viện vẫn hiển thị ảnh tĩnh (tự trích khung hình hoặc ảnh bạn chọn)</sys:String>
+    <sys:String x:Key="AddGame_Advanced">Tùy chọn nâng cao</sys:String>
+    <sys:String x:Key="AddGame_TitleLogo">Logo tên game (PNG trong suốt)</sys:String>
+    <sys:String x:Key="AddGame_WorkingDir">Thư mục làm việc (Working Directory)</sys:String>
+    <sys:String x:Key="AddGame_Arguments">Đối số dòng lệnh (mỗi dòng một đối số)</sys:String>
+    <sys:String x:Key="AddGame_DefaultHint">Bỏ trống để dùng ảnh mặc định</sys:String>
+    <sys:String x:Key="AddGame_Preview">Xem trước</sys:String>
+    <sys:String x:Key="AddGame_ErrorNameRequired">Vui lòng nhập tên game.</sys:String>
+    <sys:String x:Key="AddGame_ErrorExeRequired">Vui lòng chọn tệp .exe tồn tại trên máy.</sys:String>
+    <sys:String x:Key="AddGame_ErrorDuplicate">Tệp EXE này đã tồn tại trong thư viện.</sys:String>
+
+    <!-- Auto Scan -->
+    <sys:String x:Key="Scan_RootDir">Thư mục gốc cần quét</sys:String>
+    <sys:String x:Key="Scan_IncludeSubdirs">Quét cả thư mục con</sys:String>
+    <sys:String x:Key="Scan_Start">Quét thư mục</sys:String>
+    <sys:String x:Key="Scan_Cancel">Hủy quét</sys:String>
+    <sys:String x:Key="Scan_ShowHelpers">Hiện cả tệp phụ trợ (installer / updater / redist)</sys:String>
+    <sys:String x:Key="Scan_ColSelect">Chọn</sys:String>
+    <sys:String x:Key="Scan_ColName">Tên dự kiến</sys:String>
+    <sys:String x:Key="Scan_ColFolder">Thư mục</sys:String>
+    <sys:String x:Key="Scan_ColExe">Tệp EXE</sys:String>
+    <sys:String x:Key="Scan_ColStatus">Trạng thái</sys:String>
+    <sys:String x:Key="Scan_StatusNew">Mới</sys:String>
+    <sys:String x:Key="Scan_StatusDuplicate">Đã có</sys:String>
+    <sys:String x:Key="Scan_StatusHelper">Phụ trợ (bỏ chọn)</sys:String>
+    <sys:String x:Key="Scan_StatusMultiExe">Nhiều EXE trong thư mục</sys:String>
+    <sys:String x:Key="Scan_ImportSelected">Thêm các game đã chọn</sys:String>
+    <sys:String x:Key="Scan_ProgressFormat">Đã quét {0} thư mục — tìm thấy {1} tệp EXE</sys:String>
+    <sys:String x:Key="Scan_ResultSummary">Đã thêm {0} game, bỏ qua {1} mục trùng, {2} lỗi.</sys:String>
+    <sys:String x:Key="Scan_SkippedInfo">Bỏ qua {0} thư mục không có quyền truy cập và {1} liên kết (junction/symlink).</sys:String>
+    <sys:String x:Key="Scan_NoteReadOnly">Chỉ đọc tệp, tuyệt đối không chạy thử EXE. Game nhập tự động dùng icon và wallpaper mặc định.</sys:String>
+
+    <!-- Edit Dialogs -->
+    <sys:String x:Key="EditLoc_Title">Chỉnh sửa vị trí game</sys:String>
+    <sys:String x:Key="EditLoc_OpenCurrent">Mở vị trí hiện tại</sys:String>
+    <sys:String x:Key="EditLoc_Note">Chỉ cập nhật đường dẫn tham chiếu trong launcher; không di chuyển, sao chép hay xóa tệp game trên ổ đĩa.</sys:String>
+    <sys:String x:Key="EditLogo_Title">Chỉnh sửa Logo &amp; Icon</sys:String>
+    <sys:String x:Key="EditLogo_IconSection">Icon vuông hiển thị ở sidebar</sys:String>
+    <sys:String x:Key="EditLogo_TitleLogoSection">Logo tên game (PNG trong suốt, tùy chọn)</sys:String>
+    <sys:String x:Key="EditLogo_UseTextFallback">Dùng tên dạng chữ</sys:String>
+    <sys:String x:Key="EditWp_Title">Chỉnh sửa Wallpaper &amp; Ảnh bìa</sys:String>
+    <sys:String x:Key="EditWp_Preview">Xem trước Wallpaper (Ảnh tĩnh hoặc Video động Live Wallpaper)</sys:String>
+    <sys:String x:Key="EditWp_SelectImage">Chọn Ảnh / Video động</sys:String>
+    <sys:String x:Key="EditWp_CardCoverSection">Ảnh bìa tĩnh trong thư viện game</sys:String>
+    <sys:String x:Key="EditWp_CardCoverHint">Trong Toàn bộ game / Secret, thẻ game luôn hiển thị ảnh tĩnh.</sys:String>
+    <sys:String x:Key="EditWp_SelectCover">Chọn ảnh bìa tĩnh</sys:String>
+    <sys:String x:Key="EditWp_AutoCover">Tự lấy từ wallpaper</sys:String>
+    <sys:String x:Key="EditWp_LiveBadge">LIVE VIDEO</sys:String>
+    <sys:String x:Key="Settings_ChangeDefaultWp">Đổi wallpaper mặc định (Ảnh / Video)</sys:String>
+
+    <!-- Delete Confirmation -->
+    <sys:String x:Key="Delete_Title">Xóa game khỏi thư viện</sys:String>
+    <sys:String x:Key="Delete_Message">Bạn có chắc muốn xóa "{0}" khỏi thư viện launcher?</sys:String>
+    <sys:String x:Key="Delete_SafeNote">Thao tác này chỉ xóa bản ghi và ảnh do launcher quản lý. Dữ liệu và tệp game trên ổ đĩa của bạn KHÔNG bị xóa.</sys:String>
+
+    <!-- Settings Dialog -->
+    <sys:String x:Key="Settings_Title">Thiết lập</sys:String>
+    <sys:String x:Key="Settings_NavGeneral">Thông dụng</sys:String>
+    <sys:String x:Key="Settings_NavAppearance">Giao diện</sys:String>
+    <sys:String x:Key="Settings_NavSecret">Secret</sys:String>
+    <sys:String x:Key="Settings_NavAbout">Thông tin</sys:String>
+
+    <sys:String x:Key="Settings_LanguageGroup">Ngôn ngữ giao diện</sys:String>
+    <sys:String x:Key="Settings_SelectLanguage">Chọn ngôn ngữ</sys:String>
+    <sys:String x:Key="Settings_StartupGroup">Thiết lập khởi động</sys:String>
+    <sys:String x:Key="Settings_StartWithWindows">Tự động chạy khi đăng nhập Windows (mở vào khay hệ thống)</sys:String>
+    <sys:String x:Key="Settings_StartupDisabledByWin">Đang bị vô hiệu hóa trong Task Manager / Cài đặt khởi động của Windows.</sys:String>
+    <sys:String x:Key="Settings_CloseGroup">Thiết lập đóng cửa sổ</sys:String>
+    <sys:String x:Key="Settings_CloseToTray">Thu nhỏ vào khay hệ thống (Khuyên dùng)</sys:String>
+    <sys:String x:Key="Settings_CloseExit">Thoát hoàn toàn ứng dụng</sys:String>
+
+    <sys:String x:Key="Settings_PersonalLogoGroup">Logo cá nhân trên sidebar</sys:String>
+    <sys:String x:Key="Settings_ChangeLogo">Đổi logo cá nhân</sys:String>
+    <sys:String x:Key="Settings_DefaultAssetsGroup">Tài nguyên mặc định đóng gói sẵn</sys:String>
+    <sys:String x:Key="Settings_DefaultIconLabel">Icon game mặc định</sys:String>
+    <sys:String x:Key="Settings_DefaultWallpaperLabel">Wallpaper mặc định</sys:String>
+
+    <sys:String x:Key="Settings_AboutVersion">Phiên bản</sys:String>
+    <sys:String x:Key="Settings_AboutAuthor">Tác giả / Thương hiệu</sys:String>
+    <sys:String x:Key="Settings_AboutDataDir">Thư mục dữ liệu</sys:String>
+    <sys:String x:Key="Settings_AboutLibraries">Thư viện sử dụng</sys:String>
+
+    <!-- Secret & PIN -->
+    <sys:String x:Key="Secret_SetupTitle">Thiết lập mã PIN Secret</sys:String>
+    <sys:String x:Key="Secret_SetupDesc">Tạo mã PIN gồm đúng 4 chữ số (0–9, hỗ trợ số 0 ở đầu). Mã PIN không được lưu dưới dạng văn bản rõ.</sys:String>
+    <sys:String x:Key="Secret_NewPin">Mã PIN mới (4 chữ số)</sys:String>
+    <sys:String x:Key="Secret_ConfirmPin">Nhập lại mã PIN để xác nhận</sys:String>
+    <sys:String x:Key="Secret_CreatePinBtn">Tạo mã PIN</sys:String>
+    <sys:String x:Key="Secret_UnlockTitle">Nhập mã PIN Secret</sys:String>
+    <sys:String x:Key="Secret_UnlockBrowseDesc">Nhập đủ 4 chữ số để tự động mở danh mục Secret.</sys:String>
+    <sys:String x:Key="Secret_UnlockManageDesc">Cần xác thực mã PIN quản lý để thay đổi danh sách Secret, đổi PIN hoặc cấu hình email.</sys:String>
+    <sys:String x:Key="Secret_PinFormatError">Mã PIN phải gồm đúng 4 chữ số từ 0 đến 9.</sys:String>
+    <sys:String x:Key="Secret_PinMismatch">Mã PIN xác nhận không khớp.</sys:String>
+    <sys:String x:Key="Secret_WrongPinFormat">Mã PIN không đúng. Còn {0} lần thử trước khi tạm khóa.</sys:String>
+    <sys:String x:Key="Secret_LockedOutFormat">Nhập sai quá 5 lần. Đã tạm khóa nhập PIN trong {0}.</sys:String>
+    <sys:String x:Key="Secret_PasscodeCorrupted">Tệp bảo mật passcode bị thiếu hoặc hỏng. Danh mục Secret giữ trạng thái khóa để bảo vệ dữ liệu.</sys:String>
+    <sys:String x:Key="Secret_AlreadyConfigured">Mã PIN đã được thiết lập.</sys:String>
+
+    <sys:String x:Key="Secret_ManageGamesGroup">Quản lý game ẩn</sys:String>
+    <sys:String x:Key="Secret_AddDirectBtn">+ Thêm game trực tiếp vào Secret</sys:String>
+    <sys:String x:Key="Secret_PublicGamesLabel">Game công khai (chọn để ẩn vào Secret)</sys:String>
+    <sys:String x:Key="Secret_HiddenGamesLabel">Game đang ẩn trong Secret</sys:String>
+    <sys:String x:Key="Secret_HideBtn">Ẩn vào Secret</sys:String>
+    <sys:String x:Key="Secret_UnhideBtn">Bỏ ẩn</sys:String>
+
+    <sys:String x:Key="Secret_ChangePinGroup">Đổi mã PIN</sys:String>
+    <sys:String x:Key="Secret_CurrentPin">Mã PIN hiện tại</sys:String>
+    <sys:String x:Key="Secret_ChangePinBtn">Cập nhật mã PIN</sys:String>
+    <sys:String x:Key="Secret_PinChangedSuccess">Đã đổi mã PIN thành công.</sys:String>
+
+    <!-- Mail Alert Settings -->
+    <sys:String x:Key="Mail_GroupTitle">Cảnh báo email khi sai PIN 5 lần</sys:String>
+    <sys:String x:Key="Mail_RecipientLabel">Email nhận thông báo (Gmail / Email)</sys:String>
+    <sys:String x:Key="Mail_InvalidRecipient">Vui lòng nhập địa chỉ email nhận thông báo hợp lệ (ví dụ: tenban@gmail.com).</sys:String>
+    <sys:String x:Key="Mail_SmtpHost">SMTP Host</sys:String>
+    <sys:String x:Key="Mail_SmtpPort">SMTP Port</sys:String>
+    <sys:String x:Key="Mail_TlsMode">Chế độ TLS (bắt buộc)</sys:String>
+    <sys:String x:Key="Mail_SenderAddress">Địa chỉ email gửi</sys:String>
+    <sys:String x:Key="Mail_SenderName">Tên hiển thị</sys:String>
+    <sys:String x:Key="Mail_AuthMethod">Kiểu xác thực</sys:String>
+    <sys:String x:Key="Mail_AuthPassword">Mật khẩu ứng dụng / Password</sys:String>
+    <sys:String x:Key="Mail_AuthOAuth2">OAuth2 Access Token</sys:String>
+    <sys:String x:Key="Mail_Credential">Thông tin xác thực (để trống nếu giữ nguyên)</sys:String>
+    <sys:String x:Key="Mail_CredentialSavedHint">Đã lưu thông tin xác thực được bảo vệ bằng DPAPI.</sys:String>
+    <sys:String x:Key="Mail_SaveConfig">Lưu cấu hình email</sys:String>
+    <sys:String x:Key="Mail_SendTest">Gửi thư thử</sys:String>
+    <sys:String x:Key="Mail_StatusNotConfigured">Chưa cấu hình cảnh báo email</sys:String>
+    <sys:String x:Key="Mail_StatusConfigured">Đã cấu hình SMTP — Sẵn sàng gửi cảnh báo</sys:String>
+    <sys:String x:Key="Mail_StatusPending">Đang chờ gửi ({0} sự kiện)</sys:String>
+    <sys:String x:Key="Mail_StatusAccepted">Máy chủ thư đã chấp nhận</sys:String>
+    <sys:String x:Key="Mail_StatusFailed">Gửi thất bại</sys:String>
+    <sys:String x:Key="Mail_StatusUnknown">Chưa rõ kết quả (timeout sau truyền thư)</sys:String>
+    <sys:String x:Key="Mail_ConfigSaved">Đã lưu cấu hình cảnh báo email.</sys:String>
+    <sys:String x:Key="Mail_TestSuccess">Máy chủ thư đã chấp nhận thư thử nghiệm. Hãy kiểm tra hộp thư nhận thực tế.</sys:String>
+
+    <!-- Tray -->
+    <sys:String x:Key="Tray_Open">Mở launcher</sys:String>
+    <sys:String x:Key="Tray_LockSecret">Khóa Secret</sys:String>
+    <sys:String x:Key="Tray_Exit">Thoát</sys:String>
+    <sys:String x:Key="Tray_ErrorFallback">Không thể tạo biểu tượng khay hệ thống nên cửa sổ sẽ tiếp tục hiển thị.</sys:String>
+</ResourceDictionary>

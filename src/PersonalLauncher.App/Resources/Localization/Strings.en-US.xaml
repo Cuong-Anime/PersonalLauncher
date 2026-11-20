@@ -1,0 +1,207 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- App / General -->
+    <sys:String x:Key="App_Name">PersonalLauncher</sys:String>
+    <sys:String x:Key="Common_Save">Save</sys:String>
+    <sys:String x:Key="Common_Cancel">Cancel</sys:String>
+    <sys:String x:Key="Common_Close">Close</sys:String>
+    <sys:String x:Key="Common_Browse">Browse...</sys:String>
+    <sys:String x:Key="Common_ResetDefault">Reset to Default</sys:String>
+    <sys:String x:Key="Common_Clear">Clear</sys:String>
+    <sys:String x:Key="Common_Delete">Remove</sys:String>
+    <sys:String x:Key="Common_Confirm">Confirm</sys:String>
+    <sys:String x:Key="Common_OK">OK</sys:String>
+    <sys:String x:Key="Common_OpenFolder">Open Folder</sys:String>
+
+    <!-- Titlebar & Sidebar -->
+    <sys:String x:Key="Tooltip_PersonalLogo">Main Game View</sys:String>
+    <sys:String x:Key="Tooltip_AllGames">All Games</sys:String>
+    <sys:String x:Key="Tooltip_Settings">Settings</sys:String>
+    <sys:String x:Key="Tooltip_Minimize">Minimize</sys:String>
+    <sys:String x:Key="Tooltip_Close">Close</sys:String>
+
+    <!-- Main Game Page -->
+    <sys:String x:Key="Play_StartGame">START GAME</sys:String>
+    <sys:String x:Key="Play_Launching">Launching...</sys:String>
+    <sys:String x:Key="Play_Running">Running</sys:String>
+    <sys:String x:Key="Play_Missing">Game Not Found</sys:String>
+    <sys:String x:Key="Play_Error">Launch Error</sys:String>
+    <sys:String x:Key="Game_MissingBanner">Executable not found or removable drive disconnected. You can relocate this game.</sys:String>
+    <sys:String x:Key="Game_Relocate">Relocate</sys:String>
+    <sys:String x:Key="Game_EmptyTitle">No games in your library yet</sys:String>
+    <sys:String x:Key="Game_EmptyDesc">Add games installed on your PC to showcase wallpapers and launch them quickly.</sys:String>
+    <sys:String x:Key="Game_AddFirst">+ Add Game</sys:String>
+
+    <!-- Game Action Controls -->
+    <sys:String x:Key="Action_Folder">Folder</sys:String>
+    <sys:String x:Key="Action_Logo">Logo</sys:String>
+    <sys:String x:Key="Action_Wallpaper">Wallpaper</sys:String>
+    <sys:String x:Key="Action_EditGame">Edit Game</sys:String>
+    <sys:String x:Key="Action_RemoveFromLibrary">Remove from Library</sys:String>
+    <sys:String x:Key="Action_ManageSecret">Manage Secret</sys:String>
+
+    <!-- All Games & Search -->
+    <sys:String x:Key="Tab_AllGames">All Games</sys:String>
+    <sys:String x:Key="Tab_Secret">Secret</sys:String>
+    <sys:String x:Key="Search_Placeholder">Search games... (Ctrl+F)</sys:String>
+    <sys:String x:Key="Search_NoResults">No matching games found.</sys:String>
+    <sys:String x:Key="AllGames_AddGame">+ Add Game</sys:String>
+    <sys:String x:Key="AllGames_SecretEmpty">No games in Secret library yet.</sys:String>
+    <sys:String x:Key="AllGames_LockSecret">Lock Secret</sys:String>
+    <sys:String x:Key="AllGames_OpenHint">Double-click or press Enter to open game page</sys:String>
+
+    <!-- Add Game Dialog -->
+    <sys:String x:Key="AddGame_Title">Add Game</sys:String>
+    <sys:String x:Key="AddGame_TitleSecret">Add Game Directly to Secret</sys:String>
+    <sys:String x:Key="AddGame_TabManual">Manual</sys:String>
+    <sys:String x:Key="AddGame_TabAuto">Auto Folder Scan</sys:String>
+    <sys:String x:Key="AddGame_Name">Game Name *</sys:String>
+    <sys:String x:Key="AddGame_NameHint">Max 120 characters, supports Vietnamese / Japanese / Chinese</sys:String>
+    <sys:String x:Key="AddGame_Exe">Executable (.exe) *</sys:String>
+    <sys:String x:Key="AddGame_InstallDir">Game Folder</sys:String>
+    <sys:String x:Key="AddGame_Icon">Sidebar Icon (PNG/JPG/ICO)</sys:String>
+    <sys:String x:Key="AddGame_Wallpaper">Wallpaper (PNG/JPG Image or MP4/WEBM/MOV Live Video)</sys:String>
+    <sys:String x:Key="AddGame_CardCover">Static Library Cover Image (PNG/JPG, optional)</sys:String>
+    <sys:String x:Key="AddGame_CardCoverHint">Library cards always stay static images (auto video frame or custom cover)</sys:String>
+    <sys:String x:Key="AddGame_Advanced">Advanced Options</sys:String>
+    <sys:String x:Key="AddGame_TitleLogo">Title Logo (Transparent PNG)</sys:String>
+    <sys:String x:Key="AddGame_WorkingDir">Working Directory</sys:String>
+    <sys:String x:Key="AddGame_Arguments">Launch Arguments (one per line)</sys:String>
+    <sys:String x:Key="AddGame_DefaultHint">Leave blank to use default asset</sys:String>
+    <sys:String x:Key="AddGame_Preview">Preview</sys:String>
+    <sys:String x:Key="AddGame_ErrorNameRequired">Please enter a game name.</sys:String>
+    <sys:String x:Key="AddGame_ErrorExeRequired">Please choose an existing .exe file.</sys:String>
+    <sys:String x:Key="AddGame_ErrorDuplicate">This executable already exists in the library.</sys:String>
+
+    <!-- Auto Scan -->
+    <sys:String x:Key="Scan_RootDir">Root folder to scan</sys:String>
+    <sys:String x:Key="Scan_IncludeSubdirs">Include subfolders</sys:String>
+    <sys:String x:Key="Scan_Start">Scan Folder</sys:String>
+    <sys:String x:Key="Scan_Cancel">Cancel Scan</sys:String>
+    <sys:String x:Key="Scan_ShowHelpers">Show helper executables (installer / updater / redist)</sys:String>
+    <sys:String x:Key="Scan_ColSelect">Select</sys:String>
+    <sys:String x:Key="Scan_ColName">Suggested Name</sys:String>
+    <sys:String x:Key="Scan_ColFolder">Folder</sys:String>
+    <sys:String x:Key="Scan_ColExe">Executable</sys:String>
+    <sys:String x:Key="Scan_ColStatus">Status</sys:String>
+    <sys:String x:Key="Scan_StatusNew">New</sys:String>
+    <sys:String x:Key="Scan_StatusDuplicate">Duplicate</sys:String>
+    <sys:String x:Key="Scan_StatusHelper">Helper (unchecked)</sys:String>
+    <sys:String x:Key="Scan_StatusMultiExe">Multiple EXEs in folder</sys:String>
+    <sys:String x:Key="Scan_ImportSelected">Add Selected Games</sys:String>
+    <sys:String x:Key="Scan_ProgressFormat">Scanned {0} folders — found {1} EXEs</sys:String>
+    <sys:String x:Key="Scan_ResultSummary">Added {0} games, skipped {1} duplicates, {2} errors.</sys:String>
+    <sys:String x:Key="Scan_SkippedInfo">Skipped {0} inaccessible folders and {1} junctions/symlinks.</sys:String>
+    <sys:String x:Key="Scan_NoteReadOnly">Read-only scan; EXEs are never executed. Auto-imported games use default icon &amp; wallpaper.</sys:String>
+
+    <!-- Edit Dialogs -->
+    <sys:String x:Key="EditLoc_Title">Edit Game Location</sys:String>
+    <sys:String x:Key="EditLoc_OpenCurrent">Open Current Folder</sys:String>
+    <sys:String x:Key="EditLoc_Note">Updates the launcher reference only; game files on disk are never moved, copied, or deleted.</sys:String>
+    <sys:String x:Key="EditLogo_Title">Edit Logo &amp; Icon</sys:String>
+    <sys:String x:Key="EditLogo_IconSection">Square sidebar icon</sys:String>
+    <sys:String x:Key="EditLogo_TitleLogoSection">Title logo (transparent PNG, optional)</sys:String>
+    <sys:String x:Key="EditLogo_UseTextFallback">Use text title</sys:String>
+    <sys:String x:Key="EditWp_Title">Edit Wallpaper &amp; Library Cover</sys:String>
+    <sys:String x:Key="EditWp_Preview">Wallpaper preview (Static image or Live Video Wallpaper)</sys:String>
+    <sys:String x:Key="EditWp_SelectImage">Choose Image / Live Video</sys:String>
+    <sys:String x:Key="EditWp_CardCoverSection">Static Cover in Game Library</sys:String>
+    <sys:String x:Key="EditWp_CardCoverHint">Game cards in All Games / Secret always display a static image.</sys:String>
+    <sys:String x:Key="EditWp_SelectCover">Choose Static Cover</sys:String>
+    <sys:String x:Key="EditWp_AutoCover">Auto from Wallpaper</sys:String>
+    <sys:String x:Key="EditWp_LiveBadge">LIVE VIDEO</sys:String>
+    <sys:String x:Key="Settings_ChangeDefaultWp">Change Default Wallpaper (Image / Video)</sys:String>
+
+    <!-- Delete Confirmation -->
+    <sys:String x:Key="Delete_Title">Remove Game from Library</sys:String>
+    <sys:String x:Key="Delete_Message">Remove "{0}" from the launcher library?</sys:String>
+    <sys:String x:Key="Delete_SafeNote">Only the library record and launcher-managed images will be removed. Your game files on disk will NOT be deleted.</sys:String>
+
+    <!-- Settings Dialog -->
+    <sys:String x:Key="Settings_Title">Settings</sys:String>
+    <sys:String x:Key="Settings_NavGeneral">General</sys:String>
+    <sys:String x:Key="Settings_NavAppearance">Appearance</sys:String>
+    <sys:String x:Key="Settings_NavSecret">Secret</sys:String>
+    <sys:String x:Key="Settings_NavAbout">About</sys:String>
+
+    <sys:String x:Key="Settings_LanguageGroup">Client Language</sys:String>
+    <sys:String x:Key="Settings_SelectLanguage">Language</sys:String>
+    <sys:String x:Key="Settings_StartupGroup">Startup Settings</sys:String>
+    <sys:String x:Key="Settings_StartWithWindows">Run automatically on Windows sign-in (starts in tray)</sys:String>
+    <sys:String x:Key="Settings_StartupDisabledByWin">Currently disabled in Windows Task Manager / Startup Apps.</sys:String>
+    <sys:String x:Key="Settings_CloseGroup">Close Behavior</sys:String>
+    <sys:String x:Key="Settings_CloseToTray">Minimize to system tray (Recommended)</sys:String>
+    <sys:String x:Key="Settings_CloseExit">Exit application completely</sys:String>
+
+    <sys:String x:Key="Settings_PersonalLogoGroup">Personal Sidebar Logo</sys:String>
+    <sys:String x:Key="Settings_ChangeLogo">Change Personal Logo</sys:String>
+    <sys:String x:Key="Settings_DefaultAssetsGroup">Bundled Default Assets</sys:String>
+    <sys:String x:Key="Settings_DefaultIconLabel">Default game icon</sys:String>
+    <sys:String x:Key="Settings_DefaultWallpaperLabel">Default wallpaper</sys:String>
+
+    <sys:String x:Key="Settings_AboutVersion">Version</sys:String>
+    <sys:String x:Key="Settings_AboutAuthor">Author / Brand</sys:String>
+    <sys:String x:Key="Settings_AboutDataDir">Data Directory</sys:String>
+    <sys:String x:Key="Settings_AboutLibraries">Libraries Used</sys:String>
+
+    <!-- Secret & PIN -->
+    <sys:String x:Key="Secret_SetupTitle">Set Up Secret PIN</sys:String>
+    <sys:String x:Key="Secret_SetupDesc">Create a 4-digit PIN (0–9, leading zeros supported). Your PIN is never stored in plaintext.</sys:String>
+    <sys:String x:Key="Secret_NewPin">New PIN (4 digits)</sys:String>
+    <sys:String x:Key="Secret_ConfirmPin">Confirm PIN</sys:String>
+    <sys:String x:Key="Secret_CreatePinBtn">Create PIN</sys:String>
+    <sys:String x:Key="Secret_UnlockTitle">Enter Secret PIN</sys:String>
+    <sys:String x:Key="Secret_UnlockBrowseDesc">Enter 4 digits to automatically unlock Secret.</sys:String>
+    <sys:String x:Key="Secret_UnlockManageDesc">Management PIN verification is required to hide/unhide games, change PIN, or configure email alerts.</sys:String>
+    <sys:String x:Key="Secret_PinFormatError">PIN must be exactly 4 digits (0–9).</sys:String>
+    <sys:String x:Key="Secret_PinMismatch">Confirmation PIN does not match.</sys:String>
+    <sys:String x:Key="Secret_WrongPinFormat">Incorrect PIN. {0} attempt(s) remaining before lockout.</sys:String>
+    <sys:String x:Key="Secret_LockedOutFormat">Too many failed attempts (5). Locked out for {0}.</sys:String>
+    <sys:String x:Key="Secret_PasscodeCorrupted">Passcode security file is missing or corrupted. Secret remains locked for protection.</sys:String>
+    <sys:String x:Key="Secret_AlreadyConfigured">PIN is already configured.</sys:String>
+
+    <sys:String x:Key="Secret_ManageGamesGroup">Manage Hidden Games</sys:String>
+    <sys:String x:Key="Secret_AddDirectBtn">+ Add Game Directly to Secret</sys:String>
+    <sys:String x:Key="Secret_PublicGamesLabel">Public games (select to hide in Secret)</sys:String>
+    <sys:String x:Key="Secret_HiddenGamesLabel">Hidden Secret games</sys:String>
+    <sys:String x:Key="Secret_HideBtn">Hide in Secret</sys:String>
+    <sys:String x:Key="Secret_UnhideBtn">Unhide</sys:String>
+
+    <sys:String x:Key="Secret_ChangePinGroup">Change PIN</sys:String>
+    <sys:String x:Key="Secret_CurrentPin">Current PIN</sys:String>
+    <sys:String x:Key="Secret_ChangePinBtn">Update PIN</sys:String>
+    <sys:String x:Key="Secret_PinChangedSuccess">PIN updated successfully.</sys:String>
+
+    <!-- Mail Alert Settings -->
+    <sys:String x:Key="Mail_GroupTitle">Email Alert (5 Failed PIN Attempts)</sys:String>
+    <sys:String x:Key="Mail_RecipientLabel">Alert Recipient Email (Gmail / Email)</sys:String>
+    <sys:String x:Key="Mail_InvalidRecipient">Please enter a valid alert recipient email address (e.g., you@gmail.com).</sys:String>
+    <sys:String x:Key="Mail_SmtpHost">SMTP Host</sys:String>
+    <sys:String x:Key="Mail_SmtpPort">SMTP Port</sys:String>
+    <sys:String x:Key="Mail_TlsMode">TLS Mode (Required)</sys:String>
+    <sys:String x:Key="Mail_SenderAddress">Sender Email Address</sys:String>
+    <sys:String x:Key="Mail_SenderName">Display Name</sys:String>
+    <sys:String x:Key="Mail_AuthMethod">Authentication Method</sys:String>
+    <sys:String x:Key="Mail_AuthPassword">App Password / Password</sys:String>
+    <sys:String x:Key="Mail_AuthOAuth2">OAuth2 Access Token</sys:String>
+    <sys:String x:Key="Mail_Credential">Credential (leave blank to keep existing)</sys:String>
+    <sys:String x:Key="Mail_CredentialSavedHint">Credential stored securely with DPAPI.</sys:String>
+    <sys:String x:Key="Mail_SaveConfig">Save Email Config</sys:String>
+    <sys:String x:Key="Mail_SendTest">Send Test Email</sys:String>
+    <sys:String x:Key="Mail_StatusNotConfigured">Email alerts not configured</sys:String>
+    <sys:String x:Key="Mail_StatusConfigured">SMTP configured — Ready for alerts</sys:String>
+    <sys:String x:Key="Mail_StatusPending">Pending delivery ({0} event(s))</sys:String>
+    <sys:String x:Key="Mail_StatusAccepted">Accepted by mail server</sys:String>
+    <sys:String x:Key="Mail_StatusFailed">Delivery failed</sys:String>
+    <sys:String x:Key="Mail_StatusUnknown">Uncertain outcome (timeout after send)</sys:String>
+    <sys:String x:Key="Mail_ConfigSaved">Email alert configuration saved.</sys:String>
+    <sys:String x:Key="Mail_TestSuccess">Test email accepted by mail server. Please verify delivery in the recipient inbox.</sys:String>
+
+    <!-- Tray -->
+    <sys:String x:Key="Tray_Open">Open Launcher</sys:String>
+    <sys:String x:Key="Tray_LockSecret">Lock Secret</sys:String>
+    <sys:String x:Key="Tray_Exit">Exit</sys:String>
+    <sys:String x:Key="Tray_ErrorFallback">System tray icon could not be created, so the window will remain visible.</sys:String>
+</ResourceDictionary>

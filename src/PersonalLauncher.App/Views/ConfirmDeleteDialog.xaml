@@ -1,0 +1,34 @@
+<Window x:Class="PersonalLauncher.App.Views.ConfirmDeleteDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="{DynamicResource Delete_Title}"
+        Width="470"
+        SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        Background="#1E222B"
+        Icon="pack://application:,,,/PersonalLauncher;component/Assets/logo.ico">
+
+    <Border BorderBrush="#495061" BorderThickness="1" Background="#1E222B">
+        <StackPanel>
+            <Border Background="#171A21" BorderBrush="#2E3440" BorderThickness="0,0,0,1" Padding="20,14">
+                <TextBlock Text="{DynamicResource Delete_Title}" FontSize="15.5" FontWeight="SemiBold" Foreground="#F5F7FA" />
+            </Border>
+
+            <StackPanel Margin="22,18">
+                <TextBlock x:Name="MessageText" Foreground="#FFFFFF" FontSize="14" FontWeight="Medium" TextWrapping="Wrap" Margin="0,0,0,12" />
+                <Border Background="#232B24" BorderBrush="#3C5E40" BorderThickness="1" CornerRadius="8" Padding="12,10">
+                    <TextBlock Text="{DynamicResource Delete_SafeNote}" Foreground="#B9E4BD" FontSize="12.5" TextWrapping="Wrap" />
+                </Border>
+            </StackPanel>
+
+            <Border Background="#171A21" BorderBrush="#2E3440" BorderThickness="0,1,0,0" Padding="20,12">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="{DynamicResource Common_Cancel}" Style="{StaticResource SecondaryButtonStyle}" Margin="0,0,10,0" Click="Cancel_Click" />
+                    <Button Content="{DynamicResource Common_Delete}" Style="{StaticResource DangerButtonStyle}" Click="Confirm_Click" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Border>
+</Window>

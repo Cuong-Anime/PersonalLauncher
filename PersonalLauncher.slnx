@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PersonalLauncher.Core/PersonalLauncher.Core.csproj" />
+    <Project Path="src/PersonalLauncher.Infrastructure/PersonalLauncher.Infrastructure.csproj" />
+    <Project Path="src/PersonalLauncher.App/PersonalLauncher.App.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/PersonalLauncher.Core.Tests/PersonalLauncher.Core.Tests.csproj" />
+    <Project Path="tests/PersonalLauncher.Infrastructure.Tests/PersonalLauncher.Infrastructure.Tests.csproj" />
+  </Folder>
+</Solution>
